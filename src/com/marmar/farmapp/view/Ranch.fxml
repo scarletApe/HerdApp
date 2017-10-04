@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="background" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.RanchController">
+   <children>
+      <Separator layoutY="79.0" prefHeight="0.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0" />
+      <HBox layoutX="388.0" layoutY="31.0" spacing="10.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="31.0" />
+      <HBox layoutX="528.0" layoutY="559.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <children>
+            <JFXButton fx:id="btnNew" buttonType="RAISED" layoutX="602.0" layoutY="558.0" onAction="#handleNew" prefWidth="126.0" ripplerFill="WHITE" style="-fx-background-color: #7aaf60;" text="Save" textFill="WHITE" />
+         </children>
+      </HBox>
+      <Label fx:id="lbLabel" layoutX="100.0" layoutY="36.0" styleClass="header" text="Farm Information:" textFill="#7aaf60" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="36.0">
+         <font>
+            <Font name="Helvetica Neue Medium" size="36.0" />
+         </font>
+      </Label>
+      <HBox layoutX="439.0" layoutY="37.0" spacing="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="37.0">
+         <children>
+            <JFXButton fx:id="btnRefresh" buttonType="RAISED" layoutX="496.0" layoutY="18.0" onAction="#handleRefresh" prefWidth="80.0" ripplerFill="#fff9f9" styleClass="brown" text="Refresh" textFill="WHITE" />
+         </children>
+      </HBox>
+      <HBox layoutX="14.0" layoutY="91.0" spacing="10.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="90.0">
+         <children>
+            <GridPane hgap="15.0" layoutX="14.0" layoutY="91.0" prefHeight="436.0" prefWidth="425.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="70.0" prefWidth="145.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="265.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="lbName" text="Farm Name*:" />
+                  <Label fx:id="lbRFC" text="RFC*:" GridPane.rowIndex="1" />
+                  <Label fx:id="lbAddress" text="Address:" GridPane.rowIndex="4" />
+                  <Label fx:id="lbEmail" text="Email:" GridPane.rowIndex="2" />
+                  <TextField fx:id="tfName" GridPane.columnIndex="1" />
+                  <TextField fx:id="tfRFC" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="tfPhone" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="lbPhone" text="Phone:" GridPane.rowIndex="3" />
+                  <TextArea fx:id="taAddress" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               </children>
+            </GridPane>
+            <GridPane layoutX="454.0" layoutY="102.0" prefWidth="319.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="141.0" minHeight="10.0" prefHeight="128.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="15.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="140.0" minHeight="10.0" prefHeight="135.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="15.0" prefHeight="20.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label fx:id="lbLogo" text="Logo:" />
+                  <Label fx:id="lbIron" text="Brand Iron:" GridPane.rowIndex="3" />
+                  <JFXButton fx:id="btnLogo" buttonType="RAISED" onAction="#handleImageLogo" ripplerFill="WHITE" styleClass="brown" text="Select Image" textFill="WHITE" GridPane.rowIndex="2" />
+                  <JFXButton fx:id="btnIron" buttonType="RAISED" onAction="#handleImageIron" styleClass="brown" text="Select Image" textFill="WHITE" GridPane.rowIndex="5" />
+                  <ImageView fx:id="ivLogo" fitHeight="125.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                     <image>
+                        <Image url="@../images/empty.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="ivIron" fitHeight="125.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
+                     <image>
+                        <Image url="@../images/empty.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </GridPane>
+         </children>
+      </HBox>
+      <ImageView fx:id="ivRanch" fitHeight="60.0" fitWidth="73.0" layoutX="-30.0" layoutY="-24.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0">
+         <image>
+            <Image url="@../images/icon_farm.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

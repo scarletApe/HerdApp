@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="502.0" prefWidth="744.0" styleClass="background" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.RaceEditController">
+   <children>
+      <GridPane hgap="10.0" layoutX="14.0" layoutY="70.0" prefHeight="64.0" prefWidth="704.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="70.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="lbDescription" text="Description:" GridPane.columnIndex="2" />
+            <TextField fx:id="tfName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="tfDescription" prefHeight="29.0" prefWidth="234.0" GridPane.columnIndex="3" />
+            <Label fx:id="lbAnimal" text="Animal Type*:" />
+            <ComboBox fx:id="cbAnimal" prefWidth="217.0" GridPane.columnIndex="1" />
+            <Label fx:id="lbCode" text="Short Code:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextField fx:id="tfCode" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Label fx:id="lbName" text="Breed Name*:" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+      <HBox alignment="CENTER" layoutX="216.0" layoutY="311.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <children>
+            <JFXButton fx:id="btnCancel" buttonType="RAISED" layoutX="395.0" layoutY="312.0" onAction="#handleCancel" prefWidth="80.0" ripplerFill="WHITE" style="-fx-background-color: #af6060;" text="Cancel" textFill="WHITE" />
+            <JFXButton fx:id="btnSave" buttonType="RAISED" layoutX="508.0" layoutY="315.0" onAction="#handleSave" prefWidth="80.0" ripplerFill="WHITE" style="-fx-background-color: #7aaf60;" text="Save" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+         </children>
+      </HBox>
+      <Label fx:id="lbLabel" layoutX="81.0" layoutY="21.0" text="Register Breed:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="MinionPro-Regular" size="22.0" />
+         </font>
+      </Label>
+      <Separator layoutX="6.0" layoutY="54.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
+      <GridPane alignment="CENTER" layoutX="20.0" layoutY="143.0" prefHeight="299.0" prefWidth="704.0" style="-fx-border-color: lightgray; -fx-border-radius: 10;" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="140.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="lbY" text="Infant Image:" />
+            <ImageView fx:id="ivY" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../images/empty.png" />
+               </image>
+            </ImageView>
+            <JFXButton fx:id="btnY" buttonType="RAISED" onAction="#handleImageY" ripplerFill="WHITE" styleClass="brown" text="Choose Image" textFill="WHITE" GridPane.rowIndex="2" />
+            <Label fx:id="lbAF" text="Adult Female Image:" GridPane.columnIndex="1" />
+            <Label fx:id="lbAM" text="Adult Male Image" GridPane.columnIndex="2" />
+            <JFXButton fx:id="btnAF" buttonType="RAISED" onAction="#handleImageAF" ripplerFill="WHITE" styleClass="brown" text="Choose Image" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <JFXButton fx:id="btnAM" buttonType="RAISED" onAction="#handleImageAM" ripplerFill="WHITE" styleClass="brown" text="Choose Image" textFill="WHITE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ImageView fx:id="ivAF" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../images/empty.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="ivAM" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../images/empty.png" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
+      <Separator layoutX="30.0" layoutY="454.0" prefWidth="200.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+   </children>
+</AnchorPane>

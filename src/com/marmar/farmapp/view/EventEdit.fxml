@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.EventEditController">
+   <children>
+      <Label fx:id="lbLabel" layoutX="81.0" layoutY="21.0" text="Register a new Event:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="MinionPro-Regular" size="22.0" />
+         </font>
+      </Label>
+      <Separator layoutX="6.0" layoutY="54.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
+      <HBox alignment="CENTER" layoutX="216.0" layoutY="311.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <children>
+            <JFXButton fx:id="btnCancel" buttonType="RAISED" layoutX="395.0" layoutY="312.0" onAction="#handleCancel" prefWidth="80.0" ripplerFill="WHITE" style="-fx-background-color: #af6060;" text="Cancel" textFill="WHITE" />
+            <JFXButton fx:id="btnSave" buttonType="RAISED" layoutX="508.0" layoutY="315.0" onAction="#handleSave" prefWidth="80.0" ripplerFill="WHITE" style="-fx-background-color: #7aaf60;" text="Save" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+         </children>
+      </HBox>
+      <TabPane layoutX="20.0" layoutY="63.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="65.0">
+        <tabs>
+          <Tab fx:id="tabDetails" text="Event Details">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane hgap="10.0" prefHeight="330.0" prefWidth="423.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="20.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="290.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="319.0" minWidth="10.0" prefWidth="294.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label fx:id="lbET" text="Event Type:" GridPane.rowIndex="1" />
+                              <Label fx:id="lbFarm" text="Farm:" />
+                              <Label fx:id="lbDate" text="Date of Event:" GridPane.rowIndex="2" />
+                              <Label fx:id="lbComment" text="Comment:" GridPane.rowIndex="3" />
+                              <TextField fx:id="tfFarm" GridPane.columnIndex="1" />
+                              <TextField fx:id="tfComment" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label fx:id="lbTotal" text="Total Amount:" GridPane.rowIndex="4" />
+                              <Label fx:id="lbStake" text="Stakeholder:" GridPane.rowIndex="5" />
+                              <Label fx:id="lbContact" text="Stakeholder Contact:" GridPane.rowIndex="6" />
+                              <TextField fx:id="tfTotal" promptText="(If Applicable)" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <TextField fx:id="tfStake" promptText="eg. Medic, Buyer, Seller" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <TextField fx:id="tfContact" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <DatePicker fx:id="dpDate" prefWidth="287.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <ComboBox fx:id="cbET" prefWidth="287.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                        <GridPane prefHeight="427.0" prefWidth="329.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="343.0" minHeight="10.0" prefHeight="313.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="63.0" minHeight="10.0" prefHeight="63.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <ImageView fx:id="ivImage" fitHeight="260.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+                                 <image>
+                                    <Image url="@../images/empty.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="lbImage" text="Event Image:" />
+                              <JFXButton fx:id="btnImage" buttonType="RAISED" onAction="#handleImage" ripplerFill="WHITE" styleClass="brown" text="Choose Image" textFill="WHITE" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="tabAtEvent" text="Livestock at Event">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane layoutY="255.0" prefHeight="71.0" prefWidth="684.0" style="-fx-border-color: lightgray; -fx-border-radius: 10;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <Label fx:id="lbAdd" layoutX="14.0" layoutY="6.0" text="Add an Animal to the Event:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="6.0" />
+                              <HBox alignment="CENTER" layoutX="14.0" layoutY="28.0" spacing="10.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+                                 <children>
+                                    <ComboBox fx:id="cbLivestock" layoutX="14.0" layoutY="32.0" prefWidth="250.0" promptText="Select Livestock" />
+                                    <TextField fx:id="tfPrice" layoutX="184.0" layoutY="33.0" promptText="Price (if applicable)" />
+                                    <TextField fx:id="tfLComment" layoutX="377.0" layoutY="32.0" promptText="Comment" />
+                                    <JFXButton fx:id="btnAdd" buttonType="RAISED" layoutX="568.0" layoutY="33.0" onAction="#handleAdd" prefWidth="80.0" ripplerFill="WHITE" styleClass="brown" text="Add" textFill="WHITE" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <TableView fx:id="tvTable" layoutX="14.0" layoutY="32.0" prefHeight="247.0" prefWidth="684.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="C1" />
+                            <TableColumn prefWidth="75.0" text="C2" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Separator layoutX="173.0" layoutY="544.0" prefWidth="200.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+   </children>
+</AnchorPane>

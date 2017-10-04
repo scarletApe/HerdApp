@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="background" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.PenManagerController">
+   <children>
+      <ImageView fx:id="ivImage" fitHeight="62.0" fitWidth="80.0" layoutX="20.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="10.0">
+         <image>
+            <Image url="@../images/icon_pen.png" />
+         </image>
+      </ImageView>
+      <Separator layoutY="79.0" prefHeight="0.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0" />
+      <HBox layoutX="388.0" layoutY="31.0" spacing="10.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="31.0" />
+      <TableView fx:id="tvTable" layoutX="233.0" layoutY="140.0" prefHeight="370.0" prefWidth="605.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="185.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+      <HBox layoutX="528.0" layoutY="559.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <children>
+            <JFXButton fx:id="btnExplore" buttonType="RAISED" layoutX="413.0" layoutY="561.0" onAction="#handleExplore" prefWidth="126.0" ripplerFill="WHITE" styleClass="brown" text="Explore Selection" textFill="WHITE" />
+            <JFXButton fx:id="btnAddRemove" buttonType="RAISED" layoutX="602.0" layoutY="558.0" onAction="#handleAddRemove" prefWidth="126.0" ripplerFill="WHITE" style="-fx-background-color: #7aaf60;" text="Add / Remove" textFill="WHITE" />
+         </children>
+      </HBox>
+      <Label fx:id="lbLabel" layoutX="97.0" layoutY="35.0" styleClass="header" text="Manage Holding Areas:" textFill="#7aaf60" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="35.0">
+         <font>
+            <Font name="Helvetica Neue Medium" size="24.0" />
+         </font>
+      </Label>
+      <HBox layoutX="439.0" layoutY="37.0" spacing="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="37.0">
+         <children>
+            <JFXButton fx:id="btnRefresh" buttonType="RAISED" layoutX="496.0" layoutY="18.0" onAction="#handleRefresh" prefWidth="80.0" ripplerFill="#fff9f9" styleClass="brown" text="Refresh" textFill="WHITE" />
+            <JFXButton fx:id="btnPDF" buttonType="RAISED" layoutX="593.0" layoutY="18.0" onAction="#handlePDF" prefWidth="80.0" ripplerFill="WHITE" styleClass="brown" text="PDF" textFill="WHITE" />
+            <JFXButton fx:id="btnExcel" buttonType="RAISED" layoutX="688.0" layoutY="18.0" onAction="#handleExcel" prefWidth="80.0" ripplerFill="WHITE" styleClass="brown" text="Excel" textFill="WHITE" />
+         </children>
+      </HBox>
+      <ListView fx:id="lvList" layoutX="20.0" layoutY="235.0" prefHeight="305.0" prefWidth="150.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
+      <GridPane layoutX="185.0" layoutY="510.0" AnchorPane.leftAnchor="185.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="510.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="lbCapacity" text="Animal Unit Capacity:" />
+            <Label fx:id="lbWeight" text="Current AU Weight:" GridPane.columnIndex="1" />
+            <Label fx:id="lbNumber" text="Num Animals in Pen:" GridPane.columnIndex="2" />
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

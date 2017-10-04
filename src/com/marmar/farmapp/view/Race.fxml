@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="background" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.RaceController">
+   <children>
+      <ImageView fx:id="ivImage" fitHeight="60.0" fitWidth="60.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <image>
+            <Image url="@../images/icon_cow.png" />
+         </image>
+      </ImageView>
+      <Separator layoutY="79.0" prefHeight="0.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0" />
+      <HBox layoutX="388.0" layoutY="31.0" spacing="10.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="31.0" />
+      <TableView fx:id="tvTable" layoutX="14.0" layoutY="140.0" prefHeight="400.0" prefWidth="760.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="135.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
+      <HBox alignment="CENTER" layoutX="20.0" layoutY="100.0" spacing="10.0">
+         <children>
+            <Label fx:id="lbFilter" layoutX="497.0" layoutY="105.0" text="Filtrar por Especie:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="105.0" />
+            <ComboBox fx:id="cbCombo" layoutX="560.0" layoutY="92.0" prefHeight="27.0" prefWidth="220.0" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="100.0" />
+         </children>
+      </HBox>
+      <HBox layoutX="528.0" layoutY="559.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <children>
+            <JFXButton fx:id="btnExplore" buttonType="RAISED" layoutX="413.0" layoutY="561.0" onAction="#handleExplore" prefWidth="126.0" ripplerFill="WHITE" styleClass="brown" text="Explore Selection" textFill="WHITE" />
+            <JFXButton fx:id="btnNew" buttonType="RAISED" layoutX="602.0" layoutY="558.0" onAction="#handleNew" prefWidth="126.0" ripplerFill="WHITE" style="-fx-background-color: #7aaf60;" text="Create New" textFill="WHITE" />
+         </children>
+      </HBox>
+      <Label fx:id="lbLabel" layoutX="96.0" layoutY="35.0" styleClass="header" text="Registered Breeds:" textFill="#7aaf60" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="35.0">
+         <font>
+            <Font name="Helvetica Neue Medium" size="24.0" />
+         </font>
+      </Label>
+      <HBox layoutX="439.0" layoutY="37.0" spacing="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="37.0">
+         <children>
+            <JFXButton fx:id="btnRefresh" buttonType="RAISED" layoutX="496.0" layoutY="18.0" onAction="#handleRefresh" prefWidth="80.0" ripplerFill="#fff9f9" styleClass="brown" text="Refresh" textFill="WHITE" />
+            <JFXButton fx:id="btnShowAll" buttonType="RAISED" onAction="#handleShowAll" prefWidth="80.0" ripplerFill="WHITE" styleClass="brown" text="Show All" textFill="WHITE" />
+            <JFXButton fx:id="btnPDF" buttonType="RAISED" layoutX="593.0" layoutY="18.0" onAction="#handlePDF" prefWidth="80.0" ripplerFill="WHITE" styleClass="brown" text="PDF" textFill="WHITE" />
+            <JFXButton fx:id="btnExcel" buttonType="RAISED" layoutX="688.0" layoutY="18.0" onAction="#handleExcel" prefWidth="80.0" ripplerFill="WHITE" styleClass="brown" text="Excel" textFill="WHITE" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="360.0" prefWidth="630.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.UserEditController">
+   <children>
+      <GridPane hgap="10.0" layoutX="14.0" layoutY="70.0" prefHeight="216.0" prefWidth="373.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="70.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="172.0" minWidth="10.0" prefWidth="99.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="257.0" minWidth="10.0" prefWidth="255.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label fx:id="lbName" text="Full Name*:" />
+            <Label fx:id="lbUsername" text="Username*:" GridPane.rowIndex="1" />
+            <Label fx:id="lbPassword" text="Password*:" GridPane.rowIndex="2" />
+            <Label fx:id="lbFarm" text="Farm*:" GridPane.rowIndex="3" />
+            <TextField fx:id="tfName" GridPane.columnIndex="1" />
+            <TextField fx:id="tfUsername" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <PasswordField fx:id="pfPassword" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="tfFarm" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+      <HBox alignment="CENTER" layoutX="216.0" layoutY="311.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <children>
+            <JFXButton fx:id="btnCancel" buttonType="RAISED" layoutX="395.0" layoutY="312.0" onAction="#handleCancel" prefWidth="80.0" ripplerFill="WHITE" style="-fx-background-color: #af6060;" text="Cancel" textFill="WHITE" />
+            <JFXButton fx:id="btnSave" buttonType="RAISED" layoutX="508.0" layoutY="315.0" onAction="#handleSave" prefWidth="80.0" ripplerFill="WHITE" style="-fx-background-color: #7aaf60;" text="Save" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+         </children>
+      </HBox>
+      <GridPane layoutX="366.0" layoutY="70.0" prefHeight="216.0" prefWidth="189.0" AnchorPane.bottomAnchor="70.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="70.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView fx:id="ivImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../images/empty.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lbImage" text="User Image:" />
+            <JFXButton fx:id="btnImage" buttonType="RAISED" onAction="#handleImage" ripplerFill="WHITE" styleClass="brown" text="Choose Image" textFill="WHITE" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <Label fx:id="lbLabel" layoutX="81.0" layoutY="21.0" text="Create User:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="MinionPro-Regular" size="22.0" />
+         </font>
+      </Label>
+      <Separator layoutX="6.0" layoutY="54.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
+      <Separator layoutY="299.0" prefWidth="200.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+   </children>
+</AnchorPane>
