@@ -147,7 +147,7 @@ public class Event implements Serializable, Writable {
 
 	@Override
 	public String toString() {
-		return eventType + " with "+stakeholder;
+		return eventType + " con "+stakeholder;
 	}
 
 	@Override

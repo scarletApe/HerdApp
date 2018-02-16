@@ -15,12 +15,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="640.0" prefWidth="1200.0" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.MainController">
+<AnchorPane prefHeight="640.0" prefWidth="1200.0" styleClass="page1" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.MainController">
    <children>
-      <AnchorPane fx:id="topPane" layoutX="223.0" layoutY="51.0" prefHeight="529.0" prefWidth="966.0" style="-fx-background-color: gray;" styleClass="background" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="245.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="80.0" />
+      <AnchorPane fx:id="topPane" layoutX="223.0" layoutY="51.0" prefHeight="529.0" prefWidth="966.0" styleClass="background" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="245.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="80.0" />
+      <ProgressBar fx:id="pbBar" prefWidth="220.0" progress="0.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="14.0" />
       <HBox alignment="CENTER" layoutX="400.0" layoutY="618.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Label text=" All Rights Reserved 2017" />
+            <Label fx:id="lbCopyright" text=" All Rights Reserved 2017" />
          </children>
       </HBox>
       <ImageView fx:id="ivLogo" fitHeight="75.0" fitWidth="220.0" layoutX="14.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="87.0">
@@ -28,31 +29,64 @@
             <Image url="@../images/empty.png" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="6.0" layoutY="4.0" prefHeight="40.0" prefWidth="1200.0" style="-fx-background-color: #7aaf60;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <AnchorPane layoutX="6.0" layoutY="4.0" prefHeight="40.0" prefWidth="1200.0" styleClass="topbar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <children>
-            <Label fx:id="lbTitle" layoutX="64.0" layoutY="8.0" text="HerdApp System v1.4" textFill="WHITE">
+            <Label fx:id="lbTitle" layoutX="64.0" layoutY="8.0" styleClass="toptext" text="HerdApp System v1.4">
                <font>
-                  <Font name="Helvetica Neue Medium" size="20.0" />
+                  <Font name="Arial Rounded MT Bold" size="20.0" />
                </font>
             </Label>
-            <JFXHamburger layoutX="14.0" layoutY="10.0" />
+            <JFXHamburger layoutX="14.0" layoutY="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="12.0" />
+            <HBox alignment="CENTER" layoutX="929.0" layoutY="9.0" spacing="20.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="8.0">
+               <children>
+                  <Label fx:id="lbWelcome" layoutX="929.0" layoutY="14.0" styleClass="whitetext" text="Welcome User" />
+                  <Label fx:id="lbLogIn" styleClass="whitetext" text="In: October 17, 2017 12:30 am" />
+                  <Hyperlink fx:id="hlLogOut" onAction="#handleLogOut" styleClass="whitetext" text="LogOut" textFill="WHITE" />
+                  <ImageView fx:id="ivUser" fitHeight="27.0" fitWidth="35.0" layoutX="1112.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/blanck.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="ivFlag" fitHeight="24.0" fitWidth="32.0" layoutX="1154.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/flag_mx.gif" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
-      <MenuBar style="-fx-background-color: #7aaf60; -fx-border-color: #7aaf60; -fx-fill: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <MenuBar style="-fx-fill: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu fx:id="menuFile" mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="miClose" mnemonicParsing="false" onAction="#handleClose" text="Close" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+            <Menu fx:id="menuView" mnemonicParsing="false" text="View">
+              <items>
+                <MenuItem fx:id="miLight" mnemonicParsing="false" onAction="#handleLight" text="Light Theme" />
+                  <MenuItem fx:id="miDark" mnemonicParsing="false" onAction="#handleDark" text="Dark Theme" />
+              </items>
+            </Menu>
+            <Menu fx:id="menuRegister" mnemonicParsing="false" text="Register">
+              <items>
+                <MenuItem fx:id="miAnimal" mnemonicParsing="false" onAction="#handleAnimal" text="New Animal Species" />
+                  <MenuItem fx:id="miBreed" mnemonicParsing="false" onAction="#handleBreed" text="New Animal Breed" />
+                  <MenuItem fx:id="miLivestock" mnemonicParsing="false" onAction="#handleLivestock" text="New Livestock Individual" />
+                  <MenuItem fx:id="miET" mnemonicParsing="false" onAction="#handleET" text="New Event Type" />
+                  <MenuItem fx:id="miEvent" mnemonicParsing="false" onAction="#handleEvent" text="New Event" />
+                  <MenuItem fx:id="miHold" mnemonicParsing="false" onAction="#handleHold" text="New Holding Area" />
+              </items>
+            </Menu>
+          <Menu fx:id="menuHelp" mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem fx:id="miAbout" mnemonicParsing="false" onAction="#handleAbout" text="About" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu fx:id="menuEdit" disable="true" mnemonicParsing="false" text="Edit" visible="false">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="miDelete" mnemonicParsing="false" text="Delete" />
             </items>
           </Menu>
         </menus>

@@ -52,7 +52,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 @SuppressWarnings("unchecked")
-public class RaceController implements Initializable {
+public class RaceController implements Initializable, Internationable {
 
 	@FXML
 	private JFXButton btnRefresh;
@@ -91,26 +91,41 @@ public class RaceController implements Initializable {
 		cr = ctx.getBean(RaceDAO.class);
 
 		local = ResourceManager.localizer;
-		setLabels();
-
 		gato = new javafx.scene.image.Image("/com/marmar/farmapp/images/gato.png");
 		ivImage.setImage(new javafx.scene.image.Image("/com/marmar/farmapp/images/icon_cow.png"));
 
 		fillCombo();
+		setLabels();
 	}
 
-	private void setLabels() {
+	public void setLabels() {
 		ResourceBundle msg = local.getMessages();
 
+		// set the labels
 		lbFilter.setText(msg.getString("label.filter.by.animal") + ":");
 		lbLabel.setText(msg.getString("label.registered.animal.breeds") + ":");
 
+		// set the button names
 		btnExcel.setText(msg.getString("button.excel"));
 		btnExplore.setText(msg.getString("button.explore.selection"));
 		btnNew.setText(msg.getString("button.create.new"));
 		btnPDF.setText(msg.getString("button.pdf"));
 		btnRefresh.setText(msg.getString("button.refresh"));
 		btnShowAll.setText(msg.getString("button.show.all"));
+
+		// set the column names
+		ObservableList<Race> raceData = tvTable.getItems();
+		tvTable.getColumns().clear();
+		createActionColumn();
+		createColumn(tvTable, msg.getString("label.id"), "id_race", 50, gato);
+		createImageColum(msg.getString("label.image.young"), "young");
+		createImageColum(msg.getString("label.image.adu_fem"), "female");
+		createImageColum(msg.getString("label.image.adu_male"), "male");
+		createColumn(tvTable, msg.getString("label.animal.type"), "animal", 150, gato);
+		createColumn(tvTable, msg.getString("label.breed.name"), "name", 150, gato);
+		createColumn(tvTable, msg.getString("label.code"), "code", 100, gato);
+		createColumn(tvTable, msg.getString("label.description"), "description", 180, gato);
+		tvTable.setItems(raceData);
 	}
 
 	@FXML
@@ -124,7 +139,7 @@ public class RaceController implements Initializable {
 		Stage stage = new Stage(StageStyle.DECORATED);
 		stage.setTitle("Breed Window");
 		Parent root = (Parent) loader.load();
-		root.getStylesheets().add(ResourceManager.metroCSS);
+		root.getStylesheets().add(ResourceManager.currentCSS);
 		stage.setScene(new Scene(root));
 		stage.show();
 	}
@@ -171,19 +186,6 @@ public class RaceController implements Initializable {
 		alraza.stream().forEach((alraza1) -> {
 			raceData.add(alraza1);
 		});
-
-		tvTable.getColumns().clear();
-
-		ResourceBundle msg = local.getMessages();
-
-		createActionColumn();
-		createColumn(tvTable, msg.getString("label.id"), "id_race", 100, gato);
-		createImageColum();
-		createColumn(tvTable, msg.getString("label.animal.type"), "animal", 150, gato);
-		createColumn(tvTable, msg.getString("label.breed.name"), "name", 200, gato);
-		createColumn(tvTable, msg.getString("label.code"), "code", 100, gato);
-		createColumn(tvTable, msg.getString("label.description"), "description", 180, gato);
-
 		tvTable.setItems(raceData);
 	}
 
@@ -224,12 +226,12 @@ public class RaceController implements Initializable {
 		tvTable.getColumns().add(colAction);
 	}
 
-	private void createImageColum() {
-		ResourceBundle msg = local.getMessages();
-		TableColumn<Race, Image> imageColumn = new TableColumn<>(msg.getString("label.female.picture"));
-		imageColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
+	private void createImageColum(String label, String property) {
+//		ResourceBundle msg = local.getMessages();
+		TableColumn<Race, Image> imageColumn = new TableColumn<>(label); //msg.getString("label.female.picture")
+		imageColumn.setCellValueFactory(new PropertyValueFactory<>(property));//"image"
 		imageColumn.setCellFactory(param -> new ImageTableCell<>());
-		imageColumn.setMinWidth(150);
+		imageColumn.setMinWidth(180);
 		ImageView iv = new ImageView(gato);
 		iv.setFitHeight(30);
 		iv.setFitWidth(30);
@@ -295,9 +297,9 @@ public class RaceController implements Initializable {
 			Stage stage = new Stage(StageStyle.DECORATED);
 			stage.setTitle("Breed Window");
 			Parent root = (Parent) loader.load();
-			root.getStylesheets().add(ResourceManager.metroCSS);
+			root.getStylesheets().add(ResourceManager.currentCSS);
 			stage.setScene(new Scene(root));
-			RaceEditController controller = loader.<RaceEditController> getController();
+			RaceEditController controller = loader.<RaceEditController>getController();
 			stage.show();
 			controller.initData(u);
 		}

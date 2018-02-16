@@ -89,6 +89,8 @@ public class PenEditController implements Initializable {
 
 		local = ResourceManager.localizer;
 		setLabels();
+		
+		tfFarm.setEditable(false);
 	}
 
 	private void setLabels() {
@@ -96,7 +98,11 @@ public class PenEditController implements Initializable {
 
 		lbName.setText(msg.getString("label.name") + "*:");
 		lbDescription.setText(msg.getString("label.description") + "*:");
-		lbLabel.setText(msg.getString("label.create.eventtype") + ":");
+		lbFarm.setText(msg.getString("item.farm") + ":");
+		lbCapacity.setText(msg.getString("label.au_capacity") + ":");
+		lbArea.setText(msg.getString("label.area") + ":");
+
+		lbLabel.setText(msg.getString("label.create.hold") + ":");
 		lbImage.setText(msg.getString("label.picture") + ":");
 
 		btnCancel.setText(msg.getString("button.cancel"));
@@ -108,6 +114,9 @@ public class PenEditController implements Initializable {
 		this.ha = u;
 		tfName.setText(u.getName());
 		taDescription.setText(u.getDescription());
+		tfFarm.setText(u.getRanch().getName());
+		tfCapacity.setText(u.getAu_capacity() + "");
+		tfArea.setText(u.getArea() + "");
 
 		byte[] img = u.getImg();
 		if (img != null) {
@@ -120,7 +129,7 @@ public class PenEditController implements Initializable {
 			}
 		}
 		ResourceBundle msg = local.getMessages();
-		lbLabel.setText(msg.getString("label.detail.eventtype") + ":");
+		lbLabel.setText(msg.getString("label.detail.hold") + ":");
 		update = true;
 	}
 
@@ -164,6 +173,22 @@ public class PenEditController implements Initializable {
 		}
 		ha.setName(tfName.getText());
 		ha.setDescription(taDescription.getText());
+
+		double capacity = 0;
+		try {
+			capacity = Double.parseDouble(tfCapacity.getText());
+		} catch (Exception e) {
+			System.out.println("es no es un numero !!! >:(");
+		}
+		ha.setAu_capacity(capacity);
+
+		double area = 0;
+		try {
+			area = Double.parseDouble(tfArea.getText());
+		} catch (Exception e) {
+			System.out.println("es no es un numero !!! >:(");
+		}
+		ha.setArea(area);
 
 		if (image != null) {
 			ha.setImg(image);

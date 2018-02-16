@@ -44,7 +44,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 @SuppressWarnings("unchecked")
-public class EventController implements Initializable {
+public class EventController implements Initializable, Internationable {
 
 	@FXML
 	private JFXButton btnRefresh;
@@ -88,9 +88,6 @@ public class EventController implements Initializable {
 		ce = ctx.getBean(EventDAO.class);
 		local = ResourceManager.localizer;
 
-		// set the labels
-		setLabels();
-		
 		gato = new javafx.scene.image.Image("/com/marmar/farmapp/images/gato.png");
 		ivImage.setImage(new javafx.scene.image.Image("/com/marmar/farmapp/images/icon_event.png"));
 
@@ -98,20 +95,38 @@ public class EventController implements Initializable {
 		lvList.getStylesheets().add(ResourceManager.listCSS);
 
 		fillList();
-		
-		//hide the refresh button
-//		btnRefresh.setDisable(true);
+
+		// set the labels
+		setLabels();
+
+		// hide the refresh button
+		// btnRefresh.setDisable(true);
 		btnRefresh.setVisible(false);
 	}
-	
-	private void setLabels() {
+
+	public void setLabels() {
 		ResourceBundle msg = local.getMessages();
 
+		// set the labels
 		lbLabel.setText(msg.getString("label.registered.events") + ":");
 
+		// set the button labels
 		btnRefresh.setText(msg.getString("button.refresh"));
 		btnExplore.setText(msg.getString("button.explore.selection"));
 		btnNew.setText(msg.getString("button.create.new"));
+
+		// set the column names
+		ObservableList<Event> data = tvTable.getItems();
+		tvTable.getColumns().clear();
+		createColumn(tvTable, msg.getString("label.id"), "id_event", 50, gato);
+		createColumn(tvTable, msg.getString("label.event.type"), "eventType", 150, gato);
+		createColumn(tvTable, msg.getString("label.date.event"), "date_event", 150, gato);
+		createColumn(tvTable, msg.getString("label.total"), "total_amount", 100, gato);
+		createColumn(tvTable, msg.getString("label.stakeholder"), "stakeholder", 150, gato);
+		createColumn(tvTable, msg.getString("label.stakeholder.contact"), "stakeholder_contact", 200, gato);
+		createColumn(tvTable, msg.getString("label.notes"), "comments", 200, gato);
+		createColumn(tvTable, msg.getString("item.farm"), "ranch", 150, gato);
+		tvTable.setItems(data);
 	}
 
 	@FXML
@@ -122,9 +137,9 @@ public class EventController implements Initializable {
 			Stage stage = new Stage(StageStyle.DECORATED);
 			stage.setTitle("Event Window");
 			Parent root = (Parent) loader.load();
-			root.getStylesheets().add(ResourceManager.metroCSS);
+			root.getStylesheets().add(ResourceManager.currentCSS);
 			stage.setScene(new Scene(root));
-			EventEditController controller = loader.<EventEditController> getController();
+			EventEditController controller = loader.<EventEditController>getController();
 			stage.show();
 			controller.initData(u);
 		}
@@ -136,7 +151,7 @@ public class EventController implements Initializable {
 		Stage stage = new Stage(StageStyle.DECORATED);
 		stage.setTitle("Event Window");
 		Parent root = (Parent) loader.load();
-		root.getStylesheets().add(ResourceManager.metroCSS);
+		root.getStylesheets().add(ResourceManager.currentCSS);
 		stage.setScene(new Scene(root));
 		stage.show();
 	}
@@ -160,7 +175,7 @@ public class EventController implements Initializable {
 				for (int i = 0; i < list.size(); i++) {
 					to_write_list.add(list.get(i));
 				}
-				new ReportManager().writeReportFromWriteList(to_write_list, "Registered Events", file,false);
+				new ReportManager().writeReportFromWriteList(to_write_list, "Registered Events", file, true);
 
 			} catch (Exception ex) {
 				System.out.println("Exception=" + ex.getMessage());
@@ -238,21 +253,6 @@ public class EventController implements Initializable {
 		allData.stream().forEach((obj) -> {
 			data.add(obj);
 		});
-
-		tvTable.getColumns().clear();
-
-		ResourceBundle msg = local.getMessages();
-
-//		createActionColumn();
-		createColumn(tvTable, msg.getString("label.id"), "id_event", 50, gato);
-		createColumn(tvTable, msg.getString("label.event.type"), "eventType", 150, gato);
-		createColumn(tvTable, msg.getString("label.date.event"), "date_event", 150, gato);
-		createColumn(tvTable, msg.getString("label.total"), "total_amount", 100, gato);
-		createColumn(tvTable, msg.getString("label.stakeholder"), "stakeholder", 150, gato);
-		createColumn(tvTable, msg.getString("label.stakeholder.contact"), "stakeholder_contact", 200, gato);
-		createColumn(tvTable, msg.getString("label.notes"), "comments", 200, gato);
-		createColumn(tvTable, msg.getString("item.farm"), "ranch", 150, gato);
-
 		tvTable.setItems(data);
 	}
 
@@ -268,63 +268,6 @@ public class EventController implements Initializable {
 
 		tv.getColumns().add(col);
 	}
-
-//	@SuppressWarnings("rawtypes")
-//	private void createActionColumn() {
-//		TableColumn colAction = new TableColumn<>("Action");
-//		colAction.setCellValueFactory(
-//				new Callback<TableColumn.CellDataFeatures<Object, Boolean>, ObservableValue<Boolean>>() {
-//					@Override
-//					public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<Object, Boolean> p) {
-//						return new SimpleBooleanProperty(p.getValue() != null);
-//					}
-//				});
-//		colAction.setCellFactory(new Callback<TableColumn<Object, Boolean>, TableCell<Object, Boolean>>() {
-//			@Override
-//			public TableCell<Object, Boolean> call(TableColumn<Object, Boolean> p) {
-//				return new ButtonCell(tvTable);
-//			}
-//		});
-//		ImageView iv = new ImageView(gato);
-//		iv.setFitHeight(30);
-//		iv.setFitWidth(30);
-//		colAction.setGraphic(iv);
-//		tvTable.getColumns().add(colAction);
-//	}
-
-//	@SuppressWarnings("rawtypes")
-//	private class ButtonCell extends TableCell<Object, Boolean> {
-//		final Hyperlink cellButtonDelete = new Hyperlink("Delete");
-//		final HBox hb = new HBox(cellButtonDelete);
-//
-//		ButtonCell(final TableView tblView) {
-//			hb.setSpacing(4);
-//			cellButtonDelete.setOnAction((ActionEvent t) -> {
-//				// status = 1;
-//				int row = getTableRow().getIndex();
-//				tvTable.getSelectionModel().select(row);
-//				// aksiKlikTableData(null);
-//				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are You Sure Delete Data  ?");
-//				alert.initStyle(StageStyle.UTILITY);
-//				Optional<ButtonType> result = alert.showAndWait();
-//				if (result.get() == ButtonType.OK) {
-//					// delete
-//				} else {
-//					// dont delete
-//				}
-//			});
-//		}
-
-//		@Override
-//		protected void updateItem(Boolean t, boolean empty) {
-//			super.updateItem(t, empty);
-//			if (!empty) {
-//				setGraphic(hb);
-//			} else {
-//				setGraphic(null);
-//			}
-//		}
-//	}
 
 	// A Custom ListCell that displays an image and string
 	private class StringImageCell extends ListCell<String> {

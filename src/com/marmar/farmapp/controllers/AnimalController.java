@@ -22,7 +22,6 @@ import com.marmar.farmapp.util.writers.XLSWriter;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,7 +48,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 @SuppressWarnings("unchecked")
-public class AnimalController implements Initializable {
+public class AnimalController implements Initializable, Internationable {
 
 	@FXML
 	private JFXButton btnRefresh;
@@ -82,20 +81,38 @@ public class AnimalController implements Initializable {
 		gato = new javafx.scene.image.Image("/com/marmar/farmapp/images/gato.png");
 		ivImage.setImage(new javafx.scene.image.Image("/com/marmar/farmapp/images/icon_cowhead.png"));
 
-		setLabels();
 		fillTable(false);
+		setLabels();
 	}
 
-	private void setLabels() {
+	public void setLabels() {
 		ResourceBundle msg = local.getMessages();
 
+		// set the labels
 		lbLabel.setText(msg.getString("label.registered.animal.types") + ":");
 
+		// set the button labels
 		btnExcel.setText(msg.getString("button.excel"));
 		btnExplore.setText(msg.getString("button.explore.selection"));
 		btnNew.setText(msg.getString("button.create.new"));
 		btnPDF.setText(msg.getString("button.pdf"));
 		btnRefresh.setText(msg.getString("button.refresh"));
+
+		// sets the column names
+		ObservableList<Animal> animalData = tvTable.getItems();
+		tvTable.getColumns().clear();
+		createActionColumn();
+		createColumn(tvTable, msg.getString("label.id"), "id_animal", 50, gato);
+		createImageColum();
+		createColumn(tvTable, msg.getString("label.name"), "name", 100, gato);
+		createColumn(tvTable, msg.getString("label.description"), "description", 200, gato);
+		createColumn(tvTable, msg.getString("label.au_infant"), "au_infant", 150, gato);
+		createColumn(tvTable, msg.getString("label.au_juvenile"), "au_juvenile", 150, gato);
+		createColumn(tvTable, msg.getString("label.au_adult_fem"), "au_adult_female", 150, gato);
+		createColumn(tvTable, msg.getString("label.au_adult_male"), "au_adult_male", 150, gato);
+		createColumn(tvTable, msg.getString("label.months_to_juvenile"), "to_juvenile", 150, gato);
+		createColumn(tvTable, msg.getString("label.months_to_adult"), "to_adult", 150, gato);
+		tvTable.setItems(animalData);
 	}
 
 	@FXML
@@ -111,9 +128,9 @@ public class AnimalController implements Initializable {
 			Stage stage = new Stage(StageStyle.DECORATED);
 			stage.setTitle("User Window");
 			Parent root = (Parent) loader.load();
-			root.getStylesheets().add(ResourceManager.metroCSS);
+			root.getStylesheets().add(ResourceManager.currentCSS);
 			stage.setScene(new Scene(root));
-			AnimalEditController controller = loader.<AnimalEditController> getController();
+			AnimalEditController controller = loader.<AnimalEditController>getController();
 			stage.show();
 			controller.initData(u);
 		}
@@ -126,7 +143,7 @@ public class AnimalController implements Initializable {
 		Stage stage = new Stage(StageStyle.DECORATED);
 		stage.setTitle("Event Type Window");
 		Parent root = (Parent) loader.load();
-		root.getStylesheets().add(ResourceManager.metroCSS);
+		root.getStylesheets().add(ResourceManager.currentCSS);
 		stage.setScene(new Scene(root));
 		stage.show();
 	}
@@ -137,39 +154,10 @@ public class AnimalController implements Initializable {
 	}
 
 	private void fillTable(boolean refresh) {
-
-		if (refresh) {
-			// actualizar la tabla
-			ArrayList<Animal> data = ca.getAll();
-			tvTable.getItems().clear();
-			tvTable.getItems().addAll(data);
-			return;
-		}
-
-		ObservableList<Animal> animalData = FXCollections.observableArrayList();
-		ArrayList<Animal> alraza = ca.getAll();
-		alraza.stream().forEach((alraza1) -> {
-			animalData.add(alraza1);
-		});
-
-		tvTable.getColumns().clear();
-
-		ResourceBundle msg = local.getMessages();
-
-		createActionColumn();
-		createColumn(tvTable, msg.getString("label.id"), "id_animal", 50, gato);
-		createImageColum();
-		createColumn(tvTable, msg.getString("label.name"), "name", 100, gato);
-		createColumn(tvTable, msg.getString("label.description"), "description", 200, gato);
-
-		createColumn(tvTable, msg.getString("label.au_infant"), "au_infant", 150, gato);
-		createColumn(tvTable, msg.getString("label.au_juvenile"), "au_juvenile", 150, gato);
-		createColumn(tvTable, msg.getString("label.au_adult_fem"), "au_adult_female", 150, gato);
-		createColumn(tvTable, msg.getString("label.au_adult_male"), "au_adult_male", 150, gato);
-		createColumn(tvTable, msg.getString("label.months_to_juvenile"), "to_juvenile", 150, gato);
-		createColumn(tvTable, msg.getString("label.months_to_adult"), "to_adult", 150, gato);
-
-		tvTable.setItems(animalData);
+		// fill the table
+		ArrayList<Animal> data = ca.getAll();
+		tvTable.getItems().clear();
+		tvTable.getItems().addAll(data);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -240,6 +228,7 @@ public class AnimalController implements Initializable {
 				if (result.get() == ButtonType.OK) {
 					// delete
 					ca.delete(a);
+
 					handleRefresh(null);
 				} else {
 					// dont delete

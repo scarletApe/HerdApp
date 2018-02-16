@@ -21,7 +21,6 @@ import com.marmar.farmapp.util.writers.XLSWriter;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,7 +46,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 @SuppressWarnings("unchecked")
-public class PensController implements Initializable {
+public class PensController implements Initializable, Internationable {
 
 	@FXML
 	private JFXButton btnRefresh;
@@ -86,41 +85,26 @@ public class PensController implements Initializable {
 		gato = new javafx.scene.image.Image("/com/marmar/farmapp/images/gato.png");
 		ivImage.setImage(new javafx.scene.image.Image("/com/marmar/farmapp/images/icon_pen.png"));
 
-		setLabels();
 		fillTable(false);
+		setLabels();
 	}
 
-	private void setLabels() {
+	public void setLabels() {
 		ResourceBundle msg = local.getMessages();
 
+		// set the labels
 		lbLabel.setText(msg.getString("label.holding_area") + ":");
 
+		// set the button names
 		btnExcel.setText(msg.getString("button.excel"));
 		btnExplore.setText(msg.getString("button.explore.selection"));
 		btnNew.setText(msg.getString("button.create.new"));
 		btnPDF.setText(msg.getString("button.pdf"));
 		btnRefresh.setText(msg.getString("button.refresh"));
-	}
 
-	private void fillTable(boolean refresh) {
-		if (refresh) {
-			// actualizar la tabla
-			ArrayList<HoldingArea> data = crud.getAll();
-			tvTable.getItems().clear();
-			tvTable.getItems().addAll(data);
-			return;
-		}
-
-		ObservableList<HoldingArea> holdingData = FXCollections.observableArrayList();
-		ArrayList<HoldingArea> array = crud.getAll();
-		array.stream().forEach((alraza1) -> {
-			holdingData.add(alraza1);
-		});
-
+		// set the column names
+		ObservableList<HoldingArea> holdingData = tvTable.getItems();
 		tvTable.getColumns().clear();
-
-		ResourceBundle msg = local.getMessages();
-
 		createActionColumn();
 		createColumn(tvTable, msg.getString("label.id"), "id_hold", 50, gato);
 		createColumn(tvTable, msg.getString("label.name"), "name", 100, gato);
@@ -128,8 +112,13 @@ public class PensController implements Initializable {
 		createColumn(tvTable, msg.getString("item.farm"), "ranch", 150, gato);
 		createColumn(tvTable, msg.getString("label.au_capacity"), "au_capacity", 150, gato);
 		createColumn(tvTable, msg.getString("label.area"), "area", 150, gato);
-
 		tvTable.setItems(holdingData);
+	}
+
+	private void fillTable(boolean refresh) {
+		ArrayList<HoldingArea> data = crud.getAll();
+		tvTable.getItems().clear();
+		tvTable.getItems().addAll(data);
 	}
 
 	@FXML
@@ -140,9 +129,9 @@ public class PensController implements Initializable {
 			Stage stage = new Stage(StageStyle.DECORATED);
 			stage.setTitle("Holding Area Window");
 			Parent root = (Parent) loader.load();
-			root.getStylesheets().add(ResourceManager.metroCSS);
+			root.getStylesheets().add(ResourceManager.currentCSS);
 			stage.setScene(new Scene(root));
-			PenEditController controller = loader.<PenEditController> getController();
+			PenEditController controller = loader.<PenEditController>getController();
 			stage.show();
 			controller.initData(u);
 		}
@@ -154,7 +143,7 @@ public class PensController implements Initializable {
 		Stage stage = new Stage(StageStyle.DECORATED);
 		stage.setTitle("Holding Area Window");
 		Parent root = (Parent) loader.load();
-		root.getStylesheets().add(ResourceManager.metroCSS);
+		root.getStylesheets().add(ResourceManager.currentCSS);
 		stage.setScene(new Scene(root));
 		stage.show();
 	}

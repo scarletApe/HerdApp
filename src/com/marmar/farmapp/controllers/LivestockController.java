@@ -43,7 +43,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 @SuppressWarnings("unchecked")
-public class LivestockController implements Initializable {
+public class LivestockController implements Initializable, Internationable {
 
 	@FXML
 	private ComboBox<String> cbAge;
@@ -123,19 +123,15 @@ public class LivestockController implements Initializable {
 		cl = ctx.getBean(LivestockDAO.class);
 
 		local = ResourceManager.localizer;
-
 		gato = new javafx.scene.image.Image("/com/marmar/farmapp/images/gato.png");
 		ivImage.setImage(new javafx.scene.image.Image("/com/marmar/farmapp/images/icon_cowhead.png"));
 
 		setLabels();
-		
-		fillCombos();
-		fillTable(false);
-
-		
+		// fillCombos();
+		fillTable(true);
 	}
 
-	private void setLabels() {
+	public void setLabels() {
 		ResourceBundle msg = local.getMessages();
 
 		lbActive.setText(msg.getString("label.active") + ":");
@@ -153,6 +149,28 @@ public class LivestockController implements Initializable {
 		btnNew.setText(msg.getString("button.create.new"));
 		btnPDF.setText(msg.getString("button.pdf"));
 		btnRefresh.setText(msg.getString("button.refresh"));
+
+		ObservableList<Livestock> data = tvTable.getItems();
+		tvTable.getColumns().clear();
+		createColumn(tvTable, msg.getString("label.id"), "id_livestock", 50, gato);
+		createColumn(tvTable, msg.getString("label.ear.tag"), "ear_ring", 130, gato);
+		createColumn(tvTable, msg.getString("label.gender"), "sex", 100, gato);
+		createColumn(tvTable, msg.getString("label.name"), "name", 100, gato);
+		createColumn(tvTable, msg.getString("label.color"), "color", 100, gato);
+		createColumn(tvTable, msg.getString("label.status"), "status", 100, gato);
+		createColumn(tvTable, msg.getString("label.birth.date"), "date_birth", 130, gato);
+		createColumn(tvTable, msg.getString("label.age"), "age", 50, gato);
+		createColumn(tvTable, msg.getString("label.death_date"), "date_death", 110, gato);
+		createColumn(tvTable, msg.getString("label.breed"), "id_race_1", 150, gato);
+		createColumn(tvTable, msg.getString("label.breed") + " 2", "id_race_2", 150, gato);
+		createColumn(tvTable, msg.getString("item.farm"), "ranch", 150, gato);
+		createColumn(tvTable, msg.getString("label.active"), "active", 100, gato);
+		createColumn(tvTable, msg.getString("label.branded"), "branded", 130, gato);
+		tvTable.setItems(data);
+		lbTotal.setText(msg.getString("label.number.livestock.table") + ": " + data.size());
+
+		// fill the combo boxes
+		fillCombos();
 	}
 
 	@FXML
@@ -163,9 +181,9 @@ public class LivestockController implements Initializable {
 			Stage stage = new Stage(StageStyle.DECORATED);
 			stage.setTitle("Livestock Window");
 			Parent root = (Parent) loader.load();
-			root.getStylesheets().add(ResourceManager.metroCSS);
+			root.getStylesheets().add(ResourceManager.currentCSS);
 			stage.setScene(new Scene(root));
-			LivestockEditController controller = loader.<LivestockEditController> getController();
+			LivestockEditController controller = loader.<LivestockEditController>getController();
 			stage.show();
 			controller.initData(u);
 		}
@@ -177,14 +195,14 @@ public class LivestockController implements Initializable {
 		Stage stage = new Stage(StageStyle.DECORATED);
 		stage.setTitle("Livestock Window");
 		Parent root = (Parent) loader.load();
-		root.getStylesheets().add(ResourceManager.metroCSS);
+		root.getStylesheets().add(ResourceManager.currentCSS);
 		stage.setScene(new Scene(root));
 		stage.show();
 	}
 
 	@FXML
 	void handleRefresh(ActionEvent event) {
-		fillTable(false);
+		fillTable(true);
 	}
 
 	@FXML
@@ -196,10 +214,22 @@ public class LivestockController implements Initializable {
 		if (file != null) {
 			try {
 
-				ArrayList<Livestock> list = cl.getAll();
-				ArrayList<Writable> to_write_list = new ArrayList<>(list.size());
-				for (int i = 0; i < list.size(); i++) {
-					to_write_list.add(list.get(i));
+				Animal animal = cbAnimal.getSelectionModel().getSelectedItem();
+				int sexo = cbGender.getSelectionModel().getSelectedIndex();
+				int activo = cbActive.getSelectionModel().getSelectedIndex();
+				int arete = cbEarTag.getSelectionModel().getSelectedIndex();
+				int edad = cbAge.getSelectionModel().getSelectedIndex();
+				int meses = 0;
+				try {
+					meses = Integer.parseInt(tfMonths.getText());
+				} catch (Exception e) {
+					System.out.println("es no es un entero!!! >:(");
+				}
+
+				ArrayList<Livestock> bovinos = cl.getLivestockFiltred(sexo, activo, arete, animal, edad, meses, false);
+				ArrayList<Writable> to_write_list = new ArrayList<>(bovinos.size());
+				for (int i = 0; i < bovinos.size(); i++) {
+					to_write_list.add(bovinos.get(i));
 				}
 				new ReportManager().writeReportFromWriteList(to_write_list, "Livestock", file, true);
 
@@ -235,6 +265,8 @@ public class LivestockController implements Initializable {
 
 	public void fillCombos() {
 
+		ResourceBundle msg = local.getMessages();
+
 		// llenar el combobox de animales
 		ObservableList<Animal> animalData = FXCollections.observableArrayList();
 		ArrayList<Animal> allAni = ca.getAll();
@@ -251,7 +283,8 @@ public class LivestockController implements Initializable {
 		tfMonths.setText("0");
 
 		// llenar el combobox de sexos
-		ObservableList<String> sexos = FXCollections.observableArrayList("Both", "Male", "Female");
+		ObservableList<String> sexos = FXCollections.observableArrayList(msg.getString("filter.both"),
+				msg.getString("filter.male"), msg.getString("filter.female"));
 		cbGender.setItems(sexos);
 		cbGender.setValue(sexos.get(0));
 		cbGender.getSelectionModel().selectedItemProperty()
@@ -260,17 +293,18 @@ public class LivestockController implements Initializable {
 				});
 
 		// llenar el combobox de actividad
-		ObservableList<String> actividad = FXCollections.observableArrayList("Active Only", "Archived Only",
-				"Active & Archived");
+		ObservableList<String> actividad = FXCollections.observableArrayList(msg.getString("filter.active.all"),
+				msg.getString("filter.active.only"), msg.getString("filter.archived.only"));
 		cbActive.setItems(actividad);
-		cbActive.setValue(actividad.get(2));
+		cbActive.setValue(actividad.get(1));
 		cbActive.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue<? extends String> o, String ov, String nv) -> {
 					fillTable(true);
 				});
 
 		// llenar el combobox de aretados
-		ObservableList<String> aretados = FXCollections.observableArrayList("All", "Registered Only", "Not Registered");
+		ObservableList<String> aretados = FXCollections.observableArrayList(msg.getString("filter.both"),
+				msg.getString("filter.registered.only"), msg.getString("filter.notregistered.only"));
 		cbEarTag.setItems(aretados);
 		cbEarTag.setValue(aretados.get(0));
 		cbEarTag.getSelectionModel().selectedItemProperty()
@@ -279,8 +313,8 @@ public class LivestockController implements Initializable {
 				});
 
 		// llenar el combobox de edades
-		ObservableList<String> edades = FXCollections.observableArrayList("All Ages", "Greater Than or Equal To",
-				"Less Than or Equal To");
+		ObservableList<String> edades = FXCollections.observableArrayList(msg.getString("filter.allages"),
+				msg.getString("filter.greater"), msg.getString("filter.lesser"));
 		cbAge.setItems(edades);
 		cbAge.setValue(edades.get(0));
 		cbAge.getSelectionModel().selectedItemProperty()
@@ -290,17 +324,13 @@ public class LivestockController implements Initializable {
 	}
 
 	private void fillTable(boolean refresh) {
-
-		ResourceBundle msg = local.getMessages();
-
 		if (refresh) {
-
 			// actualizar la tabla de livestock
 			Animal animal = cbAnimal.getSelectionModel().getSelectedItem();
 			int sexo = cbGender.getSelectionModel().getSelectedIndex();
-			String activo = cbActive.getSelectionModel().getSelectedItem();
-			String arete = cbEarTag.getSelectionModel().getSelectedItem();
-			String edad = cbAge.getSelectionModel().getSelectedItem();
+			int activo = cbActive.getSelectionModel().getSelectedIndex();
+			int arete = cbEarTag.getSelectionModel().getSelectedIndex();
+			int edad = cbAge.getSelectionModel().getSelectedIndex();
 			int meses = 0;
 			try {
 				meses = Integer.parseInt(tfMonths.getText());
@@ -308,11 +338,11 @@ public class LivestockController implements Initializable {
 				System.out.println("es no es un entero!!! >:(");
 			}
 
-			ArrayList<Livestock> bovinos = cl.getLivestockFiltred(sexo, activo, arete, animal, edad, meses);
+			ArrayList<Livestock> bovinos = cl.getLivestockFiltred(sexo, activo, arete, animal, edad, meses, false);
 			tvTable.getItems().clear();
 			tvTable.getItems().addAll(bovinos);
 
-			lbTotal.setText(msg.getString("label.number.livestock.table") + ": " + bovinos.size());
+			lbTotal.setText(local.getMessages().getString("label.number.livestock.table") + ": " + bovinos.size());
 			return;
 		}
 
@@ -322,32 +352,7 @@ public class LivestockController implements Initializable {
 		livestock.stream().forEach((obj) -> {
 			data.add(obj);
 		});
-
-		tvTable.getColumns().clear();
-
-		// createActionColumn();
-		createColumn(tvTable, msg.getString("label.id"), "id_livestock", 50, gato);
-
-		createColumn(tvTable, msg.getString("label.ear.tag"), "ear_ring", 100, gato);
-		createColumn(tvTable, msg.getString("label.gender"), "sex", 100, gato);
-
-		createColumn(tvTable, msg.getString("label.name"), "name", 100, gato);
-		createColumn(tvTable, msg.getString("label.color"), "color", 100, gato);
-		createColumn(tvTable, msg.getString("label.status"), "status", 100, gato);
-		createColumn(tvTable, msg.getString("label.birth.date"), "date_birth", 110, gato);
-		createColumn(tvTable, msg.getString("label.age"), "age", 50, gato);
-
-		createColumn(tvTable, msg.getString("label.death_date"), "date_death", 110, gato);
-		createColumn(tvTable, msg.getString("label.breed"), "id_race_1", 130, gato);
-		createColumn(tvTable, msg.getString("label.breed") + " 2", "id_race_2", 130, gato);
-
-		createColumn(tvTable, msg.getString("item.farm"), "ranch", 150, gato);
-
-		createColumn(tvTable, msg.getString("label.active"), "active", 100, gato);
-		createColumn(tvTable, msg.getString("label.branded"), "branded", 100, gato);
-
 		tvTable.setItems(data);
-		lbTotal.setText(msg.getString("label.number.livestock.table") + ": " + livestock.size());
 	}
 
 	@SuppressWarnings("rawtypes")

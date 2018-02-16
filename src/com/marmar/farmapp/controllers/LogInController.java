@@ -76,18 +76,18 @@ public class LogInController implements Initializable {
 	private RanchDAO crudRanch;
 	private UserDAO crudUser;
 	private Localizer local;
+	private PanesData foo;
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 
-		System.out.println("Fuck Log in");
+//		System.out.println("Log in shown");
 
 		// get the ranch conector from spring
 		ApplicationContext ctx = Configuration.getInstance().getApplicationContext();
 		crudRanch = ctx.getBean(RanchDAO.class);
 		crudUser = ctx.getBean(UserDAO.class);
 		local = ResourceManager.localizer;// Localizer
-
 
 		// show the farm logo
 		Ranch r = crudRanch.getAll().get(0);
@@ -102,7 +102,7 @@ public class LogInController implements Initializable {
 			ivLogo.setImage(new javafx.scene.image.Image("/com/marmar/farmapp/images/empty.png"));
 		}
 		// set the name of the ranch
-		lbCaption.setText("HerdApp System v1.6 - " + r.getName());
+		lbCaption.setText("SmallFarm App v1.8 - " + r.getName());
 
 		// fill the combo boxes with the languages
 		ObservableList<String> idiomas = FXCollections.observableArrayList("Español", "English");
@@ -121,7 +121,7 @@ public class LogInController implements Initializable {
 				});
 		cbIdiomas.setCellFactory(listview -> new StringImageCell());
 		cbIdiomas.setButtonCell(new StringImageCell());
-		System.out.println("Fuck Log in again");
+//		System.out.println("Fuck Log in again");
 
 		// transition in
 		new FadeInTransition(lbContrasena).play();
@@ -132,6 +132,10 @@ public class LogInController implements Initializable {
 		new FadeInTransition(tfNombreUsuario).play();
 		new FadeInTransition(labelMensage).play();
 		new FadeInTransition(btnEntrar).play();
+	}
+
+	public void initData(PanesData foo) {
+		this.foo = foo;
 	}
 
 	// A Custom ListCell that displays an image and string
@@ -175,8 +179,8 @@ public class LogInController implements Initializable {
 	private void setLabels() {
 		ResourceBundle msg = local.getMessages();
 
-		lbUsuario.setText(msg.getString("label.username")+":");
-		lbContrasena.setText(msg.getString("label.password")+":");
+		lbUsuario.setText(msg.getString("label.username") + ":");
+		lbContrasena.setText(msg.getString("label.password") + ":");
 		btnEntrar.setText(msg.getString("button.login"));
 		labelMensage.setText("");
 	}
@@ -200,15 +204,24 @@ public class LogInController implements Initializable {
 
 		// show the main window
 		try {
+			String nv = cbIdiomas.getValue();
+			if (nv.equalsIgnoreCase("Español")) {
+				local.changeLocale("es");
+			} else if (nv.equalsIgnoreCase("English")) {
+				local.changeLocale("en");
+			}
+
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marmar/farmapp/view/Main.fxml"));
 			Stage stage = new Stage(StageStyle.DECORATED);
-			stage.setTitle("HeardApp v1.6");
+			stage.setTitle("SmallFarm App v1.8");
 			Parent root;
 			root = (Parent) loader.load();
-			root.getStylesheets().add(ResourceManager.metroCSS);
+			root.getStylesheets().add(ResourceManager.currentCSS);
 			stage.setMaximized(true);
 			stage.setScene(new Scene(root));
+			MainController controller = loader.<MainController>getController();
 			stage.show();
+			controller.initData(usuario, foo, root);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -22,7 +22,6 @@ import com.marmar.farmapp.util.writers.XLSWriter;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,7 +47,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 @SuppressWarnings("unchecked")
-public class EventTypeController implements Initializable {
+public class EventTypeController implements Initializable, Internationable {
 
 	@FXML
 	private JFXButton btnRefresh;
@@ -85,24 +84,36 @@ public class EventTypeController implements Initializable {
 		cet = ctx.getBean(EventTypeDAO.class);
 		local = ResourceManager.localizer;
 
-		// set the labels
-		setLabels();
-		
 		gato = new javafx.scene.image.Image("/com/marmar/farmapp/images/gato.png");
 		icon = new javafx.scene.image.Image("/com/marmar/farmapp/images/icon_event.png");
 		ivImage.setImage(icon);
 
 		fillTable(false);
+
+		// set the labels
+		setLabels();
 	}
-	
-	private void setLabels() {
+
+	public void setLabels() {
 		ResourceBundle msg = local.getMessages();
 
+		// set the labels
 		lbLabel.setText(msg.getString("item.manage.event.types") + ":");
 
+		// set the button labels
 		btnRefresh.setText(msg.getString("button.refresh"));
 		btnExplore.setText(msg.getString("button.explore.selection"));
 		btnNew.setText(msg.getString("button.create.new"));
+
+		// set the column names
+		ObservableList<EventType> data = tvTable.getItems();
+		tvTable.getColumns().clear();
+		createActionColumn();
+		createColumn(tvTable, msg.getString("label.id"), "id_eventtype", 100, gato);
+		createImageColum();
+		createColumn(tvTable, msg.getString("label.name"), "name", 200, gato);
+		createColumn(tvTable, msg.getString("label.description"), "description", 400, gato);
+		tvTable.setItems(data);
 	}
 
 	@FXML
@@ -113,9 +124,9 @@ public class EventTypeController implements Initializable {
 			Stage stage = new Stage(StageStyle.DECORATED);
 			stage.setTitle("User Window");
 			Parent root = (Parent) loader.load();
-			root.getStylesheets().add(ResourceManager.metroCSS);
+			root.getStylesheets().add(ResourceManager.currentCSS);
 			stage.setScene(new Scene(root));
-			EventTypeEditController controller = loader.<EventTypeEditController> getController();
+			EventTypeEditController controller = loader.<EventTypeEditController>getController();
 			stage.show();
 			controller.initData(u);
 		}
@@ -128,7 +139,7 @@ public class EventTypeController implements Initializable {
 		Stage stage = new Stage(StageStyle.DECORATED);
 		stage.setTitle("Event Type Window");
 		Parent root = (Parent) loader.load();
-		root.getStylesheets().add(ResourceManager.metroCSS);
+		root.getStylesheets().add(ResourceManager.currentCSS);
 		stage.setScene(new Scene(root));
 		stage.show();
 	}
@@ -152,7 +163,7 @@ public class EventTypeController implements Initializable {
 				for (int i = 0; i < list.size(); i++) {
 					to_write_list.add(list.get(i));
 				}
-				new ReportManager().writeReportFromWriteList(to_write_list,"Event Types", file,false);
+				new ReportManager().writeReportFromWriteList(to_write_list, "Event Types", file, false);
 
 			} catch (Exception ex) {
 				System.out.println("Exception=" + ex.getMessage());
@@ -184,33 +195,9 @@ public class EventTypeController implements Initializable {
 	}
 
 	private void fillTable(boolean refresh) {
-
-		if (refresh) {
-			// actualizar la tabla
-			ArrayList<EventType> data = cet.getAll();
-			tvTable.getItems().clear();
-			tvTable.getItems().addAll(data);
-			return;
-		}
-
-		// get all the data
-		ArrayList<EventType> allData = cet.getAll();
-		ObservableList<EventType> data = FXCollections.observableArrayList();
-		allData.stream().forEach((obj) -> {
-			data.add(obj);
-		});
-
-		tvTable.getColumns().clear();
-		
-		ResourceBundle msg = local.getMessages();
-
-		createActionColumn();
-		createColumn(tvTable, msg.getString("label.id"), "id_eventtype", 100, gato);
-		createImageColum();
-		createColumn(tvTable, msg.getString("label.name"), "name", 200, gato);
-		createColumn(tvTable, msg.getString("label.description"), "description", 400, gato);
-
-		tvTable.setItems(data);
+		ArrayList<EventType> data = cet.getAll();
+		tvTable.getItems().clear();
+		tvTable.getItems().addAll(data);
 	}
 
 	@SuppressWarnings("rawtypes")

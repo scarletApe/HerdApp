@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="190.0" prefWidth="465.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.MessageDialogController">
+   <children>
+      <ImageView fx:id="ivIcon" fitHeight="50.0" fitWidth="50.0" layoutX="379.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="14.0">
+         <image>
+            <Image url="@../images/warning.png" />
+         </image>
+      </ImageView>
+      <TextArea fx:id="taMessage" editable="false" layoutX="36.0" layoutY="89.0" prefHeight="86.0" prefWidth="323.0" wrapText="true" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="106.0" AnchorPane.topAnchor="89.0" />
+      <Separator layoutY="71.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <Label fx:id="labelMessage" layoutX="36.0" layoutY="26.0" text="Oops, Something went wrong...">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnOkay" layoutX="377.0" layoutY="148.0" onAction="#handleOkay" prefWidth="80.0" style="-fx-background-color: #7aaf60;" text="Okay" textFill="WHITE" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+   </children>
+</AnchorPane>

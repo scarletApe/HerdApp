@@ -173,6 +173,45 @@ public class Race implements Serializable, Writable {
 		}
 		return null;
 	}
+	public Image getYoung() {
+		if (img_young == null) {
+			return null;
+		}
+		try {
+			Image im = ImageManager.byteArraytoFXImage(img_young);
+			return im;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public Image getFemale() {
+		if (img_female_adult == null) {
+			return null;
+		}
+		try {
+			Image im = ImageManager.byteArraytoFXImage(img_female_adult);
+			return im;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public Image getMale() {
+		if (img_male_adult == null) {
+			return null;
+		}
+		try {
+			Image im = ImageManager.byteArraytoFXImage(img_male_adult);
+			return im;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public String toString() {

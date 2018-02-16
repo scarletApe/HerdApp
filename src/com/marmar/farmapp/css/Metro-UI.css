@@ -10,7 +10,7 @@ and open the template in the editor.
 
 .page1{
     -fx-border-color:#2c62b5;
-    -fx-background-color: white;
+    -fx-background-color: #f4f4f4;
 }
 
 .test{
@@ -134,22 +134,56 @@ and open the template in the editor.
     -fx-shape: "M4,17v-2.889l4.124-3.86l4.125,3.86V17l-4.125-3.375L4,17z";
 }
 
+.label
+{
+    -fx-text-fill: black;
+}
+
 .background{
     -fx-background-color: white;
 }
  
 .header{
     -fx-font-size: 26 pt;
-    -fx-font-family: "Segoe UI Light";
+    -fx-font-family: "Arial Rounded MT Bold";
     -fx-text-fill: black;
 }
  
 .item-title{
     -fx-font-size: 11pt;
-    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-family: "Arial Rounded MT Bold";
     -fx-text-fill: black;
     -fx-opacity: 1.0;
       
+}
+.brown{
+    -fx-background-color: #be804a;
+}
+
+.topbar{
+    -fx-background-color: #7aaf60;
+}
+
+.toptext
+{
+	-fx-font-size: 16pt;
+    -fx-font-family: "Arial Rounded MT Bold";
+    -fx-opacity: 1.0;
+    -fx-text-fill: white;
+}
+
+.whitetext{
+    -fx-text-fill: white;
+}
+
+.bluegray{
+    -fx-text-fill: #4f5458;
+}
+
+.fondo{
+    -fx-background-image: url("../images/drawing_cla.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100%;
 }
  
 /*******************************************************************************
@@ -666,9 +700,10 @@ and open the template in the editor.
 }
 .menu-bar{
     -fx-background: -fx-accent;
-    -fx-background-color: #f0f0f0;
-    -fx-border-color: #f0f0f0;
+    -fx-background-color: #7aaf60;
 }
+
+
 .menu-bar .label{
     -fx-text-fill: white;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
@@ -1073,9 +1108,7 @@ and open the template in the editor.
     -fx-opacity: 1.0
 }
 
-.brown{
-    -fx-background-color: #be804a;
-}
+
 
 /*******************************************************************************
  *                                                                             *
@@ -1107,3 +1140,36 @@ and open the template in the editor.
     -fx-border-insets: 0;
     -fx-background-insets: 0;
 }
+
+.default-color0.chart-series-line { -fx-stroke: #000000; }
+.default-color1.chart-series-line { -fx-stroke: #ffccff; }
+.default-color2.chart-series-line { -fx-stroke: #ff0000; }
+.default-color3.chart-series-line { -fx-stroke: #ff7e00; }
+.default-color4.chart-series-line { -fx-stroke: #fff000; }
+.default-color5.chart-series-line { -fx-stroke: #ffd700; }
+.default-color6.chart-series-line { -fx-stroke: #42ff00; }
+.default-color7.chart-series-line { -fx-stroke: #02ecef; }
+.default-color8.chart-series-line { -fx-stroke: #026cef; }
+.default-color9.chart-series-line { -fx-stroke: #8d02ef; }
+.default-color10.chart-series-line { -fx-stroke: #ec02ef; }
+.default-color11.chart-series-line { -fx-stroke: #939393; }
+.default-color12.chart-series-line { -fx-stroke: #cc9933; }
+.default-color13.chart-series-line { -fx-stroke: #336600; }
+.default-color14.chart-series-line { -fx-stroke: #ffccff; }
+
+.default-color0.chart-line-symbol { -fx-background-color: #000000, white; }
+.default-color1.chart-line-symbol { -fx-background-color: #ffccff, white; }
+.default-color2.chart-line-symbol { -fx-background-color: #ff0000, white; }
+.default-color3.chart-line-symbol { -fx-background-color: #ff7e00, white; }
+.default-color4.chart-line-symbol { -fx-background-color: #fff000, white; }
+.default-color5.chart-line-symbol { -fx-background-color: #ffd700, white; }
+.default-color6.chart-line-symbol { -fx-background-color: #42ff00, white; }
+.default-color7.chart-line-symbol { -fx-background-color: #02ecef, white; }
+.default-color8.chart-line-symbol { -fx-background-color: #026cef, white; }
+.default-color9.chart-line-symbol { -fx-background-color: #8d02ef, white; }
+.default-color10.chart-line-symbol { -fx-background-color: #ec02ef, white; }
+.default-color11.chart-line-symbol { -fx-background-color: #939393, white; }
+.default-color12.chart-line-symbol { -fx-background-color: #cc9933, white; }
+.default-color13.chart-line-symbol { -fx-background-color: #336600, white; }
+.default-color14.chart-line-symbol { -fx-background-color: #ffccff, white; }
+

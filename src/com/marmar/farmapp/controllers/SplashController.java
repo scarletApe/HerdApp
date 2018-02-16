@@ -95,10 +95,10 @@ public class SplashController implements Initializable {
 				
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marmar/farmapp/view/LogIn.fxml"));
 				Stage stage = new Stage(StageStyle.DECORATED);
-				stage.setTitle("HeardApp v1.6");
+				stage.setTitle("SmallFarm App v1.7");
 				Parent root;
 				root = (Parent) loader.load();
-				root.getStylesheets().add(ResourceManager.metroCSS);
+				root.getStylesheets().add(ResourceManager.currentCSS);
 				stage.setScene(new Scene(root));
 				stage.show();
 			} catch (Exception e) {

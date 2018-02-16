@@ -38,7 +38,7 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class LivestockGalleryController implements Initializable {
+public class LivestockGalleryController implements Initializable, Internationable {
 
 	@FXML
 	private ComboBox<String> cbAge;
@@ -109,13 +109,17 @@ public class LivestockGalleryController implements Initializable {
 		ivImage.setImage(new javafx.scene.image.Image("/com/marmar/farmapp/images/icon_cowhead.png"));
 		
 		local = ResourceManager.localizer;
+		
 		setLabels();
-
-		fillCombos();
-		fillGallery(false);
+//		fillCombos();
+		fillGallery(true);
+		
+		//hide the buttons
+		btnRefresh.setVisible(false);
+		btnPDF.setVisible(false);
 	}
 
-	private void setLabels() {
+	public void setLabels() {
 		ResourceBundle msg = local.getMessages();
 
 		lbActive.setText(msg.getString("label.active") + ":");
@@ -130,10 +134,15 @@ public class LivestockGalleryController implements Initializable {
 
 		btnPDF.setText(msg.getString("button.pdf"));
 		btnRefresh.setText(msg.getString("button.refresh"));
+		
+		//fill the combo boxes
+		fillCombos();
 	}
 
 	private void fillCombos() {
 
+		ResourceBundle msg = local.getMessages();
+		
 		// llenar el combobox de animales
 		ObservableList<Animal> animalData = FXCollections.observableArrayList();
 		ArrayList<Animal> allAni = ca.getAll();
@@ -150,7 +159,10 @@ public class LivestockGalleryController implements Initializable {
 		tfMonths.setText("0");
 
 		// llenar el combobox de sexos
-		ObservableList<String> sexos = FXCollections.observableArrayList("Both", "Male", "Female");
+		ObservableList<String> sexos = FXCollections.observableArrayList(
+				msg.getString("filter.both"),
+				msg.getString("filter.male"), 
+				msg.getString("filter.female"));		
 		cbGender.setItems(sexos);
 		cbGender.setValue(sexos.get(0));
 		cbGender.getSelectionModel().selectedItemProperty()
@@ -159,17 +171,22 @@ public class LivestockGalleryController implements Initializable {
 				});
 
 		// llenar el combobox de actividad
-		ObservableList<String> actividad = FXCollections.observableArrayList("Active Only", "Archived Only",
-				"Active & Archived");
+		ObservableList<String> actividad = FXCollections.observableArrayList(
+				msg.getString("filter.active.all"), 
+				msg.getString("filter.active.only"),
+				msg.getString("filter.archived.only"));
 		cbActive.setItems(actividad);
-		cbActive.setValue(actividad.get(2));
+		cbActive.setValue(actividad.get(1));
 		cbActive.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue<? extends String> o, String ov, String nv) -> {
 					fillGallery(true);
 				});
 
 		// llenar el combobox de aretados
-		ObservableList<String> aretados = FXCollections.observableArrayList("All", "Registered Only", "Not Registered");
+		ObservableList<String> aretados = FXCollections.observableArrayList(
+				msg.getString("filter.both"), 
+				msg.getString("filter.registered.only"), 
+				msg.getString("filter.notregistered.only"));
 		cbEarTag.setItems(aretados);
 		cbEarTag.setValue(aretados.get(0));
 		cbEarTag.getSelectionModel().selectedItemProperty()
@@ -178,8 +195,10 @@ public class LivestockGalleryController implements Initializable {
 				});
 
 		// llenar el combobox de edades
-		ObservableList<String> edades = FXCollections.observableArrayList("All Ages", "Greater Than or Equal To",
-				"Less Than or Equal To");
+		ObservableList<String> edades = FXCollections.observableArrayList(
+				msg.getString("filter.allages"), 
+				msg.getString("filter.greater"),
+				msg.getString("filter.lesser"));
 		cbAge.setItems(edades);
 		cbAge.setValue(edades.get(0));
 		cbAge.getSelectionModel().selectedItemProperty()
@@ -200,9 +219,9 @@ public class LivestockGalleryController implements Initializable {
 			// actualizar la galleria de livestock
 			Animal animal = cbAnimal.getSelectionModel().getSelectedItem();
 			int sexo = cbGender.getSelectionModel().getSelectedIndex();
-			String activo = cbActive.getSelectionModel().getSelectedItem();
-			String arete = cbEarTag.getSelectionModel().getSelectedItem();
-			String edad = cbAge.getSelectionModel().getSelectedItem();
+			int activo = cbActive.getSelectionModel().getSelectedIndex();
+			int arete = cbEarTag.getSelectionModel().getSelectedIndex();
+			int edad = cbAge.getSelectionModel().getSelectedIndex();
 			int meses = 0;
 			try {
 				meses = Integer.parseInt(tfMonths.getText());
@@ -210,7 +229,7 @@ public class LivestockGalleryController implements Initializable {
 				System.out.println("es no es un entero!!! >:(");
 			}
 
-			ArrayList<Livestock> livestock = cl.getLivestockFiltred(sexo, activo, arete, animal, edad, meses);
+			ArrayList<Livestock> livestock = cl.getLivestockFiltred(sexo, activo, arete, animal, edad, meses,true);
 			tpTilePane.getChildren().clear();
 
 			for (int i = 0; i < livestock.size(); i++) {
@@ -272,7 +291,7 @@ public class LivestockGalleryController implements Initializable {
 						Stage stage = new Stage(StageStyle.DECORATED);
 						stage.setTitle("Livestock Window");
 						Parent root = (Parent) loader.load();
-						root.getStylesheets().add(ResourceManager.metroCSS);
+						root.getStylesheets().add(ResourceManager.currentCSS);
 						stage.setScene(new Scene(root));
 						LivestockEditController controller = loader.<LivestockEditController> getController();
 						stage.show();

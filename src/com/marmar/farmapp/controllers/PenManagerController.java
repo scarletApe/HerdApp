@@ -2,7 +2,10 @@ package com.marmar.farmapp.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.springframework.context.ApplicationContext;
@@ -27,6 +30,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,7 +40,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class PenManagerController implements Initializable {
+public class PenManagerController implements Initializable, Internationable {
 
 	@FXML
 	private Label lbNumber;
@@ -57,7 +61,7 @@ public class PenManagerController implements Initializable {
 	private JFXButton btnPDF;
 
 	@FXML
-	private ListView<HoldingArea> lvList;
+	private ListView<String> lvList;
 
 	@FXML
 	private TableView<LivestockHolding> tvTable;
@@ -79,35 +83,59 @@ public class PenManagerController implements Initializable {
 	private LivestockHoldingDAO lhCRUD;
 
 	private Localizer local;
+	private DecimalFormat df;
+	private HashMap<String, Image> map;
+	private ArrayList<HoldingArea> holds;
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		df = new DecimalFormat("##.##");
+
 		ApplicationContext ctx = Configuration.getInstance().getApplicationContext();
 		haCRUD = ctx.getBean(HoldingAreaDAO.class);
 		lhCRUD = ctx.getBean(LivestockHoldingDAO.class);
 
 		local = ResourceManager.localizer;
-		// set the labels
-		setLabels();
-
 		gato = ResourceManager.gato;
 		ivImage.setImage(new javafx.scene.image.Image("/com/marmar/farmapp/images/icon_pen.png"));
 
 		// set the style to the list view
 		lvList.getStylesheets().add(ResourceManager.listCSS);
 
+		// fill list
 		fillList();
 
+		// set the labels and therefore the table
+		setLabels();
+
+		// hide the refresh button
+		btnRefresh.setVisible(false);
+		
+		//disable other buttons
+		btnPDF.setDisable(true);
+		btnExcel.setDisable(true);
 	}
 
-	private void setLabels() {
+	public void setLabels() {
 		ResourceBundle msg = local.getMessages();
 
+		// set the labels
 		lbLabel.setText(msg.getString("label.registered.pens") + ":");
 
+		// set the button names
 		btnRefresh.setText(msg.getString("button.refresh"));
 		btnExplore.setText(msg.getString("button.explore.selection"));
 		btnAddRemove.setText(msg.getString("button.add_remove"));
+
+		// set the table columns
+		ObservableList<LivestockHolding> data = tvTable.getItems();
+		tvTable.getColumns().clear();
+		createColumn(tvTable, msg.getString("label.id"), "id_lh", 50, gato);
+		createColumn(tvTable, msg.getString("label.hold"), "hold", 100, gato);
+		createColumn(tvTable, msg.getString("item.livestock"), "livestock", 400, gato);
+		createColumn(tvTable, msg.getString("label.date.added"), "date_added", 150, gato);
+		createColumn(tvTable, msg.getString("label.duration"), "duration", 100, gato);
+		tvTable.setItems(data);
 	}
 
 	@FXML
@@ -119,17 +147,25 @@ public class PenManagerController implements Initializable {
 			Stage stage = new Stage(StageStyle.DECORATED);
 			stage.setTitle("Livestock Window");
 			Parent root = (Parent) loader.load();
-			root.getStylesheets().add(ResourceManager.metroCSS);
+			root.getStylesheets().add(ResourceManager.currentCSS);
 			stage.setScene(new Scene(root));
-			LivestockEditController controller = loader.<LivestockEditController> getController();
+			LivestockEditController controller = loader.<LivestockEditController>getController();
 			stage.show();
 			controller.initData(u);
 		}
 	}
 
 	@FXML
-	void handleAddRemove(ActionEvent event) {
-
+	void handleAddRemove(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marmar/farmapp/view/PenAddRemove.fxml"));
+		Stage stage = new Stage(StageStyle.DECORATED);
+		stage.setTitle("Holding Area Transfer Window");
+		Parent root = (Parent) loader.load();
+		root.getStylesheets().add(ResourceManager.currentCSS);
+		stage.setScene(new Scene(root));
+		PenAddRemoveController controller = loader.<PenAddRemoveController>getController();
+		stage.show();
+		controller.initData(holds.get(lvList.getSelectionModel().getSelectedIndex()));
 	}
 
 	@FXML
@@ -150,58 +186,53 @@ public class PenManagerController implements Initializable {
 	public void fillList() {
 
 		// get all the data
-		ArrayList<HoldingArea> holds = haCRUD.getAll();
+		holds = haCRUD.getAll();
 
 		// fill the list strings
-		ObservableList<HoldingArea> data = FXCollections.observableArrayList();
+		ObservableList<String> data = FXCollections.observableArrayList();
 		for (int i = 0; i < holds.size(); i++) {
-			data.add(holds.get(i));
+			data.add(holds.get(i).getName());
+		}
+
+		// create the map of the images
+		map = new HashMap<>(holds.size());
+		HoldingArea e;
+		for (int i = 0; i < holds.size(); i++) {
+			e = holds.get(i);
+			map.put(e.getName(), e.getImage());
 		}
 
 		lvList.setItems(data);
+		lvList.setCellFactory(listview -> new StringImageCell());
 		lvList.getSelectionModel().selectedItemProperty()
-				.addListener((ObservableValue<? extends HoldingArea> o, HoldingArea ov, HoldingArea nv) -> {
+				.addListener((ObservableValue<? extends String> o, String ov, String nv) -> {
 					fillTable(false);
-					System.out.println(nv.toString());
-
-					lbCapacity.setText(local.getMessages().getString("label.capacity") + ": " + nv.getAu_capacity());
 				});
 		lvList.getSelectionModel().select(0);
 	}
 
 	private void fillTable(boolean all) {
-		ArrayList<LivestockHolding> allData;
-
-		if (all) {
-			// fill the table with all the data
-			allData = lhCRUD.getAll();
-		} else {
-			// fill the table with only the selected filter
-			HoldingArea hold = lvList.getSelectionModel().getSelectedItem();
-			allData = lhCRUD.getLivestockInHold(hold);
-		}
+		// fill the table with only the selected filter
+		int index = lvList.getSelectionModel().getSelectedIndex();
+		HoldingArea hold = holds.get(index);
+		ArrayList<LivestockHolding> allData = lhCRUD.getLivestockInHold(hold);
 
 		ObservableList<LivestockHolding> data = FXCollections.observableArrayList();
 		allData.stream().forEach((obj) -> {
 			data.add(obj);
 		});
+		tvTable.setItems(data);
 
 		ResourceBundle msg = local.getMessages();
+		lbCapacity.setText(local.getMessages().getString("label.capacity") + ": " + hold.getAu_capacity());
+
 		lbNumber.setText(msg.getString("label.num_ani_pen") + ": " + data.size());
 
-		double total = getTotalWeight(allData);
-		lbWeight.setText(msg.getString("label.au_load") + ": " + total);
-
-		tvTable.getColumns().clear();
-		createColumn(tvTable, msg.getString("label.id"), "id_lh", 50, gato);
-		createColumn(tvTable, msg.getString("label.hold"), "hold", 100, gato);
-		createColumn(tvTable, msg.getString("item.livestock"), "livestock", 400, gato);
-		createColumn(tvTable, msg.getString("label.date.added"), "date_added", 150, gato);
-		createColumn(tvTable, msg.getString("label.duration"), "duration", 100, gato);
-		tvTable.setItems(data);
+		double total = getTotalWeight((List<LivestockHolding>) data);
+		lbWeight.setText(msg.getString("label.au_load") + ": " + df.format(total));
 	}
 
-	private double getTotalWeight(ArrayList<LivestockHolding> data) {
+	private double getTotalWeight(List<LivestockHolding> data) {
 		double total = 0;
 		for (int i = 0; i < data.size(); i++) {
 			total += data.get(i).getLivestock().getAnimalUnit();
@@ -220,5 +251,33 @@ public class PenManagerController implements Initializable {
 		col.setGraphic(iv);
 
 		tv.getColumns().add(col);
+	}
+
+	// A Custom ListCell that displays an image and string
+	private class StringImageCell extends ListCell<String> {
+		Label label;
+
+		@Override
+		protected void updateItem(String item, boolean empty) {
+			super.updateItem(item, empty);
+			if (item == null || empty) {
+				setItem(null);
+				setGraphic(null);
+			} else {
+				setText(item);
+				// setTextFill(Color.WHITE);
+				ImageView image = getImageView(item);
+				label = new Label("", image);
+				setGraphic(label);
+			}
+		}
+
+		private ImageView getImageView(String imageName) {
+			Image image = map.get(imageName);
+			ImageView imageView = new ImageView(image);
+			imageView.setFitWidth(40);
+			imageView.setFitHeight(40);
+			return imageView;
+		}
 	}
 }

@@ -23,8 +23,8 @@ public class ImageTableCell<S> extends TableCell<S, Image> {
 		}
 
 		imageView.setImage(item);
-		imageView.setFitHeight(50);
-		imageView.setFitWidth(50);
+		imageView.setFitHeight(60);
+		imageView.setFitWidth(70);
 		setGraphic(imageView);
 	}
 }

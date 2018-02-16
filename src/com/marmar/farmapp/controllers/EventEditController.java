@@ -163,7 +163,7 @@ public class EventEditController implements Initializable {
 
 		// llenar el combobox de livestock
 		ObservableList<Livestock> list2 = FXCollections.observableArrayList();
-		ArrayList<Livestock> data2 = cl.getLivestockFiltred(0, "Active Only", "All", null, "All Ages", 0);
+		ArrayList<Livestock> data2 = cl.getLivestockFiltred(0, 1, 0, null, 0, 0,true);
 		data2.stream().forEach((obj) -> {
 			list2.add(obj);
 		});

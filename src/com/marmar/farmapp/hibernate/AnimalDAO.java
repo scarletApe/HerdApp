@@ -25,7 +25,7 @@ public class AnimalDAO {
 		csf.updateObject(r);
 	}
 
-	public void delete(Animal r) {
+	public void delete(Animal r){
 		csf.deleteObject(r);
 	}
 

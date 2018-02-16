@@ -34,7 +34,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 
-public class ChartController implements Initializable {
+public class ChartController implements Initializable, Internationable {
 
 	@FXML
 	private Label lbFilter;
@@ -74,9 +74,9 @@ public class ChartController implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 
 		ivImage.setImage(new javafx.scene.image.Image("/com/marmar/farmapp/images/icon_chart.png"));
-		
+
 		charter = new ChartManager();
-		
+
 		ApplicationContext ctx = Configuration.getInstance().getApplicationContext();
 		crud = ctx.getBean(AnimalDAO.class);
 		local = ResourceManager.localizer;
@@ -88,45 +88,32 @@ public class ChartController implements Initializable {
 		});
 		cbAnimal.setItems(animalData);
 		cbAnimal.setValue(animalData.get(0));
-
-		ResourceBundle msg = local.getMessages();
-
-		lbFilter.setText(msg.getString("label.filter.by.animal") + ":");
-		lbLabel.setText(msg.getString("label.view.charts") + ":");
-		btnPDF.setText(msg.getString("button.pdf"));
-		btnRefresh.setText(msg.getString("button.refresh"));
-
-		// llenar la lista con imagenes y las opciones
-		ObservableList<String> opciones = FXCollections.observableArrayList(
-				// "Livestock Pie Chart",
-				"1. " + msg.getString("label.chart.livestock.pie"),
-				// "Livestock Bar Chart",
-				"2. " + msg.getString("label.chart.livestock.bar"),
-				// "Breeds Population",
-				"3. " + msg.getString("label.chart.breeds"),
-				// "Births Per Year",
-				"4. " + msg.getString("label.chart.births.year"),
-				// "Deaths Per Year",
-				"5. " + msg.getString("label.chart.deaths.year"));
-		lvList.setItems(opciones);
-		lvList.getSelectionModel().selectedItemProperty()
-				.addListener((ObservableValue<? extends String> o, String ov, String nv) -> {
-					handleListMenu(nv);
+		cbAnimal.getSelectionModel().selectedItemProperty()
+				.addListener((ObservableValue<? extends Animal> o, Animal ov, Animal nv) -> {
+					handleListMenu(lvList.getSelectionModel().getSelectedItem());
 				});
+
+		// disable the pdf button
+		btnPDF.setVisible(false);
+
+		// the labels and init the list
+		setLabels();
+
 		// set the style to the list view
 		lvList.getStylesheets().add(ResourceManager.listCSS);
-		lvList.getSelectionModel().select(0);
-
-		// hide the pdf button
-		// btnPDF.setVisible(false);
-		btnPDF.setDisable(true);
 	}
 
 	private void handleListMenu(String option) {
 
 		a = cbAnimal.getSelectionModel().getSelectedItem();
+		char op;
+		try {
+			op = option.charAt(0);
+		} catch (Exception e) {
+			op = '1';
+		}
 
-		switch (option.charAt(0)) {
+		switch (op) {
 		// case "Livestock Pie Chart":
 		case '1':
 			chart = charter.fillChartPiePopLivestock(a);
@@ -170,6 +157,10 @@ public class ChartController implements Initializable {
 		});
 		cbAnimal.setItems(animalData);
 		cbAnimal.setValue(animalData.get(0));
+		cbAnimal.getSelectionModel().selectedItemProperty()
+				.addListener((ObservableValue<? extends Animal> o, Animal ov, Animal nv) -> {
+					handleListMenu(lvList.getSelectionModel().getSelectedItem());
+				});
 	}
 
 	@FXML
@@ -192,6 +183,37 @@ public class ChartController implements Initializable {
 				ex.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void setLabels() {
+		ResourceBundle msg = local.getMessages();
+
+		lbFilter.setText(msg.getString("label.filter.by.animal") + ":");
+		lbLabel.setText(msg.getString("label.view.charts") + ":");
+		btnPDF.setText(msg.getString("button.pdf"));
+		btnRefresh.setText(msg.getString("button.refresh"));
+
+		// llenar la lista con imagenes y las opciones
+		ObservableList<String> opciones = FXCollections.observableArrayList(
+				// "Livestock Pie Chart",
+				"1. " + msg.getString("label.chart.livestock.pie"),
+				// "Livestock Bar Chart",
+				"2. " + msg.getString("label.chart.livestock.bar"),
+				// "Breeds Population",
+				"3. " + msg.getString("label.chart.breeds"),
+				// "Births Per Year",
+				"4. " + msg.getString("label.chart.births.year"),
+				// "Deaths Per Year",
+				"5. " + msg.getString("label.chart.deaths.year"));
+		lvList.getItems().clear();
+		lvList.setItems(opciones);
+		lvList.getSelectionModel().selectedItemProperty()
+				.addListener((ObservableValue<? extends String> o, String ov, String nv) -> {
+					handleListMenu(nv);
+				});
+		charter = new ChartManager();
+		lvList.getSelectionModel().select(0);
 	}
 
 }

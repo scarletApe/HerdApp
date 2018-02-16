@@ -23,12 +23,11 @@ import com.marmar.farmapp.util.writers.Writable;
 public class Livestock implements Serializable, Writable {
 
 	/*
-	 * id_race_1 INT NOT NULL, id_race_2 INT, id_ranch INT NOT NULL, id_mother
-	 * INT, id_father INT, ear_ring VARCHAR(100), gender INT, name VARCHAR(100),
-	 * status VARCHAR(100), date_birth Date, date_death Date, cause_death
-	 * VARCHAR, img Longblob, img_dead Longblob, color VARCHAR(100) ,
-	 * description VARCHAR(300), active INT(1), img_iron Longblob, branded
-	 * INT(1), weight DECIMAL,
+	 * id_race_1 INT NOT NULL, id_race_2 INT, id_ranch INT NOT NULL, id_mother INT,
+	 * id_father INT, ear_ring VARCHAR(100), gender INT, name VARCHAR(100), status
+	 * VARCHAR(100), date_birth Date, date_death Date, cause_death VARCHAR, img
+	 * Longblob, img_dead Longblob, color VARCHAR(100) , description VARCHAR(300),
+	 * active INT(1), img_iron Longblob, branded INT(1), weight DECIMAL,
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -315,14 +314,11 @@ public class Livestock implements Serializable, Writable {
 		// 1 = female
 		switch (gender) {
 		case 0:
-			ResourceManager.localizer.getMessages().getString("label.gender.male");
-//			return "Male";
+			return ResourceManager.localizer.getMessages().getString("label.gender.male");
 		case 1:
 			return ResourceManager.localizer.getMessages().getString("label.gender.female");
-//			return "Female";
 		}
 		return "undefined";
-
 	}
 
 	public double getAnimalUnit() {
@@ -377,10 +373,33 @@ public class Livestock implements Serializable, Writable {
 				"Date Birth", "Date Death", "Mother", "Father" };
 	}
 	/*
-	 * id_livestock INT NOT NULL auto_increment, id_race_1 INT NOT NULL,
-	 * id_race_2 INT, id_ranch INT NOT NULL, id_mother INT, id_father INT,
-	 * ear_ring VARCHAR(100), gender INT, name VARCHAR(100), status
-	 * VARCHAR(100), date_birth Date, date_death Date, img Longblob, img_dead
-	 * Longblob, color VARCHAR(100) , description VARCHAR(300),
+	 * id_livestock INT NOT NULL auto_increment, id_race_1 INT NOT NULL, id_race_2
+	 * INT, id_ranch INT NOT NULL, id_mother INT, id_father INT, ear_ring
+	 * VARCHAR(100), gender INT, name VARCHAR(100), status VARCHAR(100), date_birth
+	 * Date, date_death Date, img Longblob, img_dead Longblob, color VARCHAR(100) ,
+	 * description VARCHAR(300),
 	 */
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id_livestock;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Livestock other = (Livestock) obj;
+		if (id_livestock != other.id_livestock)
+			return false;
+		return true;
+	}
+
 }

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="650.0" prefWidth="1000.0" styleClass="background" stylesheets="@css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.LivestockEditController">
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.LivestockEditController">
    <children>
       <Label fx:id="lbLabel" layoutX="81.0" layoutY="21.0" text="Register Livestock:" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0">
          <font>

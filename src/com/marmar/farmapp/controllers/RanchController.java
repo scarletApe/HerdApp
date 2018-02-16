@@ -28,7 +28,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
-public class RanchController implements Initializable {
+public class RanchController implements Initializable, Internationable {
 
 	@FXML
 	private JFXButton btnLogo;
@@ -108,7 +108,7 @@ public class RanchController implements Initializable {
 		handleRefresh(null);
 	}
 	
-	private void setLabels(){
+	public void setLabels(){
 		ResourceBundle msg = local.getMessages();
 		
 		lbName.setText(msg.getString("label.farm.name") + "*:");

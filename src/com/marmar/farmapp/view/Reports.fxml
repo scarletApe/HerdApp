@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="background" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.ReportController">
+<AnchorPane prefHeight="632.0" prefWidth="1039.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.ReportController">
    <children>
       <ImageView fx:id="ivImage" fitHeight="60.0" fitWidth="73.0" layoutX="20.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0">
          <image>
@@ -17,7 +17,7 @@
          </image>
       </ImageView>
       <Separator layoutY="79.0" prefHeight="0.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="79.0" />
-      <Label fx:id="lbLabel" layoutX="118.0" layoutY="35.0" styleClass="header" text="View Reports:" textFill="#7aaf60" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="35.0">
+      <Label fx:id="lbLabel" layoutX="118.0" layoutY="35.0" styleClass="header" text="Ver Reportes:" textFill="#7aaf60" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="35.0">
          <font>
             <Font name="Helvetica Neue Medium" size="24.0" />
          </font>
@@ -29,7 +29,15 @@
             <JFXButton fx:id="btnHTML" buttonType="RAISED" layoutX="688.0" layoutY="18.0" onAction="#handleHTML" prefWidth="80.0" ripplerFill="WHITE" styleClass="brown" text="HTML" textFill="WHITE" />
          </children>
       </HBox>
-      <ListView fx:id="lvList" layoutX="14.0" layoutY="82.0" prefHeight="492.0" prefWidth="160.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
-      <WebView fx:id="webView" layoutX="237.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="185.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0" />
+      <ListView fx:id="lvList" layoutX="14.0" layoutY="82.0" prefHeight="492.0" prefWidth="180.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
+      <WebView fx:id="webView" layoutX="237.0" layoutY="137.0" prefHeight="443.0" prefWidth="595.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="205.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="140.0" />
+      <HBox alignment="CENTER" layoutX="304.0" layoutY="37.0" spacing="10.0" AnchorPane.leftAnchor="205.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <Label fx:id="lbEvent" layoutX="304.0" layoutY="42.0" text="Elija un Evento:" />
+            <ComboBox fx:id="cbEvent" layoutX="370.0" layoutY="37.0" prefWidth="220.0" />
+            <Label fx:id="lbLivestock" text="Elija un Animal:" />
+            <ComboBox fx:id="cbLivestock" prefWidth="220.0" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

@@ -15,6 +15,8 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.marmar.farmapp.util.DialogManager;
+
 /**
  *
  * @author manuelmartinez
@@ -24,8 +26,8 @@ public class HibernateConector {
 
 	@Autowired
 	public SessionFactory factory;
-	
-	public HibernateConector(SessionFactory factory){
+
+	public HibernateConector(SessionFactory factory) {
 		this.factory = factory;
 	}
 
@@ -50,7 +52,8 @@ public class HibernateConector {
 				tx.rollback();
 			}
 			System.err.println(he.getMessage());
-			he.printStackTrace();
+			new DialogManager().showDialog(2, he.getMessage());
+			// he.printStackTrace();
 		} finally {
 			session.close();
 		}
@@ -69,7 +72,8 @@ public class HibernateConector {
 				tx.rollback();
 			}
 			System.err.println(he.getMessage());
-			he.printStackTrace();
+			new DialogManager().showDialog(2, he.getMessage());
+			// he.printStackTrace();
 		} finally {
 			session.close();
 		}
@@ -87,7 +91,8 @@ public class HibernateConector {
 				tx.rollback();
 			}
 			System.err.println(he.getMessage());
-			he.printStackTrace();
+			new DialogManager().showDialog(2, he.getLocalizedMessage());
+			// he.printStackTrace();
 		} finally {
 			session.close();
 		}
@@ -109,7 +114,8 @@ public class HibernateConector {
 				tx.rollback();
 			}
 			System.err.println(he.getMessage());
-			he.printStackTrace();
+			new DialogManager().showDialog(2, he.getMessage());
+			// he.printStackTrace();
 		} finally {
 			session.close();
 		}

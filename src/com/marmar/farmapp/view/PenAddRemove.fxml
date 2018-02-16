@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="547.0" prefWidth="883.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.PenAddRemoveController">
+   <children>
+      <HBox alignment="CENTER" layoutX="216.0" layoutY="311.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+         <children>
+            <JFXButton fx:id="btnCancel" buttonType="RAISED" layoutX="395.0" layoutY="312.0" onAction="#handleCancel" prefWidth="80.0" ripplerFill="WHITE" style="-fx-background-color: #af6060;" text="Cancel" textFill="WHITE" />
+            <JFXButton fx:id="btnSave" buttonType="RAISED" layoutX="508.0" layoutY="315.0" onAction="#handleSave" prefWidth="80.0" ripplerFill="WHITE" style="-fx-background-color: #7aaf60;" text="Save" textFill="WHITE" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+         </children>
+      </HBox>
+      <Label fx:id="lbLabel" layoutX="81.0" layoutY="21.0" text="Transfer Animals to/from Holding Area" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="20.0">
+         <font>
+            <Font name="MinionPro-Regular" size="22.0" />
+         </font>
+      </Label>
+      <Separator layoutX="6.0" layoutY="54.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
+      <Separator layoutY="299.0" prefWidth="200.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <GridPane hgap="10.0" layoutX="24.0" layoutY="70.0" prefHeight="332.0" prefWidth="660.0" vgap="10.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="70.0">
+         <children>
+            <Label fx:id="lbUnassigned" layoutX="14.0" layoutY="14.0" styleClass="item-title" text="Unassigned Animals:" />
+            <ListView fx:id="listHold" layoutX="477.0" layoutY="31.0" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="31.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="lbHold" layoutX="477.0" layoutY="14.0" styleClass="item-title" text="Holding Area:" GridPane.columnIndex="2" />
+            <ListView fx:id="listUnassigned" layoutX="14.0" layoutY="31.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="31.0" GridPane.rowIndex="1" />
+            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="100.0" prefWidth="150.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <JFXButton fx:id="btnAdd" buttonType="RAISED" maxWidth="140.0" onAction="#handleAdd" ripplerFill="WHITE" style="-fx-background-color: #7aaf60;" text="Add -&gt;" textFill="WHITE" />
+                  <JFXButton fx:id="btnAddAll" buttonType="RAISED" maxWidth="140.0" onAction="#handleAddAll" ripplerFill="WHITE" style="-fx-background-color: #7aaf60;" text="Añadir Todos -&gt;&gt;" textFill="WHITE" GridPane.rowIndex="1" />
+                  <JFXButton fx:id="btnRemove" buttonType="RAISED" maxWidth="140.0" onAction="#handleRemove" ripplerFill="WHITE" style="-fx-background-color: #af6060;" text="&lt;- Remove" textFill="WHITE" GridPane.rowIndex="2" />
+                  <JFXButton fx:id="btnRemoveAll" buttonType="RAISED" maxWidth="140.0" onAction="#handleRemoveAll" ripplerFill="WHITE" style="-fx-background-color: #af6060;" text="&lt;&lt;- Remove All" textFill="WHITE" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+         </children>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="10.0" prefWidth="130.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="20.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+   </children>
+</AnchorPane>

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="background" stylesheets="@../css/Metro-UI.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.ChartController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="background" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marmar.farmapp.controllers.ChartController">
    <children>
       <ImageView fx:id="ivImage" fitHeight="60.0" fitWidth="73.0" layoutX="20.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0">
          <image>
@@ -24,17 +24,17 @@
       </Label>
       <HBox layoutX="439.0" layoutY="37.0" spacing="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="37.0">
          <children>
-            <JFXButton fx:id="btnRefresh" buttonType="RAISED" layoutX="496.0" layoutY="18.0" onAction="#handleRefresh" prefWidth="80.0" ripplerFill="#fff9f9" styleClass="brown" text="Refresh" textFill="WHITE" />
             <JFXButton fx:id="btnPDF" buttonType="RAISED" layoutX="593.0" layoutY="18.0" onAction="#handlePDF" prefWidth="80.0" ripplerFill="WHITE" styleClass="brown" text="PDF" textFill="WHITE" />
             <JFXButton fx:id="btnHTML" buttonType="RAISED" layoutX="688.0" layoutY="18.0" onAction="#handleHTML" prefWidth="80.0" ripplerFill="WHITE" styleClass="brown" text="PNG" textFill="WHITE" />
          </children>
       </HBox>
-      <ListView fx:id="lvList" layoutX="14.0" layoutY="82.0" prefHeight="492.0" prefWidth="160.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
-      <BorderPane fx:id="bpBorder" layoutX="178.0" layoutY="137.0" prefHeight="443.0" prefWidth="595.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="185.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="140.0" />
+      <ListView fx:id="lvList" layoutX="14.0" layoutY="82.0" prefHeight="492.0" prefWidth="180.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0" />
+      <BorderPane fx:id="bpBorder" layoutX="178.0" layoutY="137.0" prefHeight="443.0" prefWidth="595.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="205.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="140.0" />
       <HBox alignment="CENTER" layoutX="185.0" layoutY="100.0" spacing="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
          <children>
             <Label fx:id="lbFilter" layoutX="185.0" layoutY="106.0" styleClass="item-title" text="Filter by Animal Type:" />
             <ComboBox fx:id="cbAnimal" layoutX="341.0" layoutY="100.0" prefWidth="200.0" />
+            <JFXButton fx:id="btnRefresh" buttonType="RAISED" onAction="#handleRefresh" prefWidth="80.0" ripplerFill="#fff9f9" styleClass="brown" text="Refresh" textFill="WHITE" />
          </children>
       </HBox>
    </children>

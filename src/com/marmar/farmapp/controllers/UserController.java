@@ -21,7 +21,6 @@ import com.marmar.farmapp.util.writers.XLSWriter;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,7 +46,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 @SuppressWarnings("unchecked")
-public class UserController implements Initializable {
+public class UserController implements Initializable, Internationable {
 
 	@FXML
 	private JFXButton btnRefresh;
@@ -83,18 +82,17 @@ public class UserController implements Initializable {
 		ApplicationContext ctx = Configuration.getInstance().getApplicationContext();
 		cu = ctx.getBean(UserDAO.class);
 		local = ResourceManager.localizer;
-
-		// set the labels
-		setLabels();
-
 		gato = new javafx.scene.image.Image("/com/marmar/farmapp/images/gato.png");
 		icon = new javafx.scene.image.Image("/com/marmar/farmapp/images/icon_user.png");
 		ivImage.setImage(icon);
 
 		fillTable(false);
+
+		// set the labels
+		setLabels();
 	}
 
-	private void setLabels() {
+	public void setLabels() {
 		ResourceBundle msg = local.getMessages();
 
 		lbLabel.setText(msg.getString("item.manage_users") + ":");
@@ -102,6 +100,17 @@ public class UserController implements Initializable {
 		btnRefresh.setText(msg.getString("button.refresh"));
 		btnExplore.setText(msg.getString("button.explore.selection"));
 		btnNew.setText(msg.getString("button.create.new"));
+
+		ObservableList<User> data = tvTable.getItems();
+		tvTable.getColumns().clear();
+		createActionColumn();
+		createColumn(tvTable, msg.getString("label.id"), "id_user", 100, gato);
+		createColumn(tvTable, msg.getString("label.name"), "name", 200, gato);
+		createColumn(tvTable, msg.getString("label.username"), "username", 150, gato);
+		createColumn(tvTable, msg.getString("label.password"), "password", 150, gato);
+		createColumn(tvTable, msg.getString("label.user.type"), "usertype", 125, gato);
+		createColumn(tvTable, msg.getString("item.farm"), "ranch", 150, gato);
+		tvTable.setItems(data);
 	}
 
 	@FXML
@@ -112,9 +121,9 @@ public class UserController implements Initializable {
 			Stage stage = new Stage(StageStyle.DECORATED);
 			stage.setTitle("User Window");
 			Parent root = (Parent) loader.load();
-			root.getStylesheets().add(ResourceManager.metroCSS);
+			root.getStylesheets().add(ResourceManager.currentCSS);
 			stage.setScene(new Scene(root));
-			UserEditController controller = loader.<UserEditController> getController();
+			UserEditController controller = loader.<UserEditController>getController();
 			stage.show();
 			controller.initData(u);
 		}
@@ -126,7 +135,7 @@ public class UserController implements Initializable {
 		Stage stage = new Stage(StageStyle.DECORATED);
 		stage.setTitle("User Window");
 		Parent root = (Parent) loader.load();
-		root.getStylesheets().add(ResourceManager.metroCSS);
+		root.getStylesheets().add(ResourceManager.currentCSS);
 		stage.setScene(new Scene(root));
 		stage.show();
 	}
@@ -183,35 +192,9 @@ public class UserController implements Initializable {
 	}
 
 	private void fillTable(boolean refresh) {
-
-		if (refresh) {
-			// actualizar la tabla
-			ArrayList<User> data = cu.getAll();
-			tvTable.getItems().clear();
-			tvTable.getItems().addAll(data);
-			return;
-		}
-
-		// get all the data
-		ArrayList<User> allusers = cu.getAll();
-		ObservableList<User> data = FXCollections.observableArrayList();
-		allusers.stream().forEach((obj) -> {
-			data.add(obj);
-		});
-
-		tvTable.getColumns().clear();
-
-		ResourceBundle msg = local.getMessages();
-
-		createActionColumn();
-		createColumn(tvTable, msg.getString("label.id"), "id_user", 100, gato);
-		createColumn(tvTable, msg.getString("label.name"), "name", 200, gato);
-		createColumn(tvTable, msg.getString("label.username"), "username", 150, gato);
-		createColumn(tvTable, msg.getString("label.password"), "password", 150, gato);
-		createColumn(tvTable, msg.getString("label.user.type"), "usertype", 125, gato);
-		createColumn(tvTable, msg.getString("item.farm"), "ranch", 150, gato);
-
-		tvTable.setItems(data);
+		ArrayList<User> data = cu.getAll();
+		tvTable.getItems().clear();
+		tvTable.getItems().addAll(data);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -230,7 +213,7 @@ public class UserController implements Initializable {
 	private void createActionColumn() {
 		ResourceBundle msg = local.getMessages();
 		@SuppressWarnings("rawtypes")
-		TableColumn colAction = new TableColumn<>( msg.getString("item.action"));
+		TableColumn colAction = new TableColumn<>(msg.getString("item.action"));
 		colAction.setCellValueFactory(
 				new Callback<TableColumn.CellDataFeatures<Object, Boolean>, ObservableValue<Boolean>>() {
 					@Override
@@ -253,7 +236,7 @@ public class UserController implements Initializable {
 
 	private class ButtonCell extends TableCell<Object, Boolean> {
 		ResourceBundle msg = local.getMessages();
-		final Hyperlink cellButtonDelete = new Hyperlink( msg.getString("item.delete") );
+		final Hyperlink cellButtonDelete = new Hyperlink(msg.getString("item.delete"));
 
 		final HBox hb = new HBox(cellButtonDelete);
 
@@ -264,8 +247,9 @@ public class UserController implements Initializable {
 				int row = getTableRow().getIndex();
 				tvTable.getSelectionModel().select(row);
 				// aksiKlikTableData(null);
-				User u = tvTable.getSelectionModel().getSelectedItem(); //msg.delte
-				Alert alert = new Alert(Alert.AlertType.CONFIRMATION, msg.getString("msg.delte") +" "+ u.getName() + " ?");
+				User u = tvTable.getSelectionModel().getSelectedItem(); // msg.delte
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+						msg.getString("msg.delte") + " " + u.getName() + " ?");
 				alert.initStyle(StageStyle.UTILITY);
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == ButtonType.OK) {

@@ -1,5 +1,6 @@
 package com.marmar.farmapp.model;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
@@ -11,7 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.marmar.farmapp.util.ImageManager;
 import com.marmar.farmapp.util.writers.Writable;
+
+import javafx.scene.image.Image;
 
 @Entity
 @Table(name = "Holding_Area")
@@ -132,5 +136,18 @@ public class HoldingArea implements Serializable, Writable {
 	public String[] getNames() {
 		return new String[] { "ID", "Ear Tag", "Gender", "Name", "Status", "Color", "Description", "Breed 1", "Breed 2",
 				"Date Birth", "Date Death", "Farm", "Mother", "Father" };
+	}
+	public Image getImage() {
+		if (img == null) {
+			return null;
+		}
+		try {
+			Image im = ImageManager.byteArraytoFXImage(img);
+			return im;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new javafx.scene.image.Image("/com/marmar/farmapp/images/empty.png");
 	}
 }

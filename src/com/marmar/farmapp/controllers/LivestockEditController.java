@@ -228,8 +228,13 @@ public class LivestockEditController implements Initializable {
 	private LivestockDAO cl;
 	private Localizer local;
 
+	private byte[] personalBrand;
+
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		personalBrand = null;
+		
+		//get the spring application context and the beans
 		ApplicationContext ctx = Configuration.getInstance().getApplicationContext();
 		ca = ctx.getBean(AnimalDAO.class);
 		cl = ctx.getBean(LivestockDAO.class);
@@ -345,16 +350,29 @@ public class LivestockEditController implements Initializable {
 
 		cbBranded.setSelected(live.isBranded());
 		if (live.isBranded()) {
-			System.out.println("branded geting farm brand");
-			byte[] iron = live.getRanch().getIron();
-			if (iron != null) {
+			byte[] personalBrand = live.getImg_iron();
+			if (personalBrand == null) {
+				// get the farm brand then
+				System.out.println("branded geting farm brand");
+				byte[] iron = live.getRanch().getIron();
+				if (iron != null) {
+					try {
+						ivBrand.setImage(ImageManager.byteArraytoFXImage(iron));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			} else {
+				// use the personal brand
 				try {
-					ivBrand.setImage(ImageManager.byteArraytoFXImage(iron));
+					ivBrand.setImage(ImageManager.byteArraytoFXImage(personalBrand));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
+
 		}
 
 		// sex combobox
@@ -601,6 +619,10 @@ public class LivestockEditController implements Initializable {
 			livestock.setImg_dead(imgDead);
 		}
 
+		if (personalBrand != null) {
+			livestock.setImg_iron(personalBrand);
+		}
+
 		System.out.println("update =" + update);
 		if (update) {
 			cl.update(livestock);
@@ -668,7 +690,29 @@ public class LivestockEditController implements Initializable {
 
 	@FXML
 	void handleBrand(ActionEvent event) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open File");
 
+		// Set extension filter
+		List<String> l = new ArrayList<String>();
+		l.add("*.png");
+		l.add("*.jpg");
+		l.add("*.gif");
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Image files (png, jpg, gif)", l);
+		fileChooser.getExtensionFilters().add(extFilter);
+
+		// Show open file dialog
+		File file = fileChooser.showOpenDialog(((Node) (event.getSource())).getScene().getWindow());
+		if (file != null) {
+			try {
+				byte[] data = com.marmar.farmapp.util.ImageManager.readBytesFromFile(file.getCanonicalPath());
+				personalBrand = data;
+				ivBrand.setImage(ImageManager.byteArraytoFXImage(data));
+			} catch (IOException | java.lang.IllegalArgumentException e) {
+				System.out.println("Error en cargar imagen " + e);
+			}
+
+		}
 	}
 
 }

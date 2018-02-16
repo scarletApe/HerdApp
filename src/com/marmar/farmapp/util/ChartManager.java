@@ -41,7 +41,6 @@ public class ChartManager {
 	public ChartManager() {
 		ApplicationContext ctx = Configuration.getInstance().getApplicationContext();
 		crud = ctx.getBean(LivestockDAO.class);
-
 		Localizer local = ResourceManager.localizer;
 		msg = local.getMessages();
 	}
@@ -82,15 +81,15 @@ public class ChartManager {
 	}
 
 	/**
-	 * This method returns a hashmap where the key is for the year and the array
-	 * is the months of the year and the number of deaths per month.
+	 * This method returns a hashmap where the key is for the year and the array is
+	 * the months of the year and the number of deaths per month.
 	 *
 	 * @return
 	 */
 	private HashMap<Integer, int[]> dataForChartMuertes(Animal ani) {
 		HashMap<Integer, int[]> map = new HashMap<>();
 
-		ArrayList<Livestock> bovinos = crud.getLivestockFiltred(0, "Active & Archived", "All", ani, "All Ages", 0);
+		ArrayList<Livestock> bovinos = crud.getLivestockFiltred(0, 0, 0, ani, 0, 0,true);
 
 		int year;
 		int month;
@@ -155,15 +154,15 @@ public class ChartManager {
 	}
 
 	/**
-	 * This method returns a hashmap where the key is for the year and the array
-	 * is the months of the year and the number of calfs born per month.
+	 * This method returns a hashmap where the key is for the year and the array is
+	 * the months of the year and the number of calfs born per month.
 	 *
 	 * @return //
 	 */
 	private HashMap<Integer, int[]> dataForChartNacimientos(Animal ani) {
 		HashMap<Integer, int[]> map = new HashMap<>();
 
-		ArrayList<Livestock> bovinos = crud.getLivestockFiltred(0, "Active & Archived", "All", ani, "All Ages", 0);
+		ArrayList<Livestock> bovinos = crud.getLivestockFiltred(0, 0, 0, ani, 0, 0,true);
 
 		int year;
 		int month;
@@ -213,14 +212,14 @@ public class ChartManager {
 	}
 
 	/**
-	 * This method return a hashmap with the key representing the bovine race
-	 * and value the numer of animals that are that race.
+	 * This method return a hashmap with the key representing the bovine race and
+	 * value the numer of animals that are that race.
 	 *
 	 * @return
 	 */
 	private HashMap<String, Integer> dataForChartRaza(Animal ani) {
 		HashMap<String, Integer> map = new HashMap<>();
-		ArrayList<Livestock> bovinos = crud.getLivestockFiltred(0, "Active Only", "All", ani, "All Ages", 0);
+		ArrayList<Livestock> bovinos = crud.getLivestockFiltred(0, 1, 0, ani, 0, 0,true);
 
 		String r;
 		for (Livestock b : bovinos) {
@@ -261,8 +260,8 @@ public class ChartManager {
 	}
 
 	/**
-	 * This method returns a hashmap of how many cows, bulls, novillos ...etc
-	 * there is.
+	 * This method returns a hashmap of how many cows, bulls, novillos ...etc there
+	 * is.
 	 *
 	 * @return
 	 */
@@ -278,7 +277,7 @@ public class ChartManager {
 		int months_to_adult = a.getTo_adult();
 		int months_to_juvenile = a.getTo_juvenile();
 
-		ArrayList<Livestock> bovinos = crud.getLivestockFiltred(0, "Active Only", "All", a, "All Ages", 0);
+		ArrayList<Livestock> bovinos = crud.getLivestockFiltred(0, 1, 0, a, 0, 0,true);
 		int gender;
 		int months;
 
